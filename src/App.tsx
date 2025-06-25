@@ -1,17 +1,7 @@
-import "./App.css";
-import MainPage from "@/component/main/MainPage";
-import Header from "@/component/common/Header";
-import Footer from "@/component/common/Footer";
-
+import { RouterProvider } from 'react-router-dom';
+import { router } from '@/router/router';
 function App() {
-  return (
-    <>
-      {/* wrapper 사용해야 함 */}
-      <Header />
-      <MainPage />
-      <Footer />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
