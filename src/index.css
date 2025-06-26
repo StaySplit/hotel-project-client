@@ -1,79 +1,44 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-display: swap;
+  src: url('./assets/fonts/Pretendard-Light.woff2') format('woff2');
 }
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/Pretendard-Regular.woff2') format('woff2');
 }
-
-/* 2. margin, padding 제거 */
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
-  padding: 0;
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/fonts/Pretendard-Medium.woff2') format('woff2');
 }
 
-/* 3. 기본 폰트와 배경 설정 */
-body {
-  min-height: 100vh;
-  line-height: 1.5;
-  font-family: system-ui, sans-serif;
-  background-color: #fff;
-  color: #111;
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/Pretendard-Bold.woff2') format('woff2');
 }
+@theme {
+  --font-sans: Pretendard, sans-serif;
 
-/* 4. 리스트 스타일 제거 */
-ul,
-ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  --color-primary-100: #e7eef6;
+  --color-primary-200: #c7d6eb;
+  --color-primary-300: #a3bce0;
+  --color-primary-400: #7897c2;
+  --color-primary-500: #4a6ca0;
+  --color-primary-600: #32518a;
+  --color-primary-700: #264176;
+  --color-primary-800: #1e345b;
+  --color-primary-900: #162944;
 
-/* 5. 기본 링크 스타일 제거 */
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  --color-black: #1a1a1a;
 
-/* 6. 이미지 및 미디어 기본 설정 */
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* 7. 버튼, 인풋 등 기본 리셋 */
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  color: inherit;
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  outline: none;
+  --color-gray-primary: #dadada;
 }
