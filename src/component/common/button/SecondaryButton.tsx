@@ -1,12 +1,15 @@
 import React from 'react';
-
-type Props = {
+interface SecondaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
-  disabled?: boolean;
-};
+}
 
-export const SecondaryButton = ({ size = 'md', children, disabled = false, ...props }: Props) => {
+export const SecondaryButton = ({
+  size = 'md',
+  children,
+  disabled = false,
+  ...props
+}: SecondaryButtonProps) => {
   const sizeClass = {
     sm: 'py-1 px-3 text-sm',
     md: 'py-2 px-4 text-base',
