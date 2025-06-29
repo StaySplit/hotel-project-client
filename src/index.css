@@ -27,7 +27,6 @@
 }
 @theme {
   --font-sans: Pretendard, sans-serif;
-
   --color-primary-100: #e7eef6;
   --color-primary-200: #c7d6eb;
   --color-primary-300: #a3bce0;
@@ -41,4 +40,9 @@
   --color-black: #1a1a1a;
 
   --color-gray-primary: #dadada;
+  --color-error: #e57373;
+}
+
+body {
+  min-height: 100vh;
 }
