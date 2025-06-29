@@ -7,7 +7,15 @@ interface RadioInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElemen
   checked: boolean;
 }
 
-const RadioInput = ({ label, size = 'md', name, id, checked, onChange }: RadioInputProps) => {
+const RadioInput = ({
+  label,
+  size = 'md',
+  name,
+  id,
+  checked,
+  onChange,
+  ...rest
+}: RadioInputProps) => {
   const getRadioInputStyle = (size: 'md' | 'lg') => {
     let defaultStyle =
       'bg-gray-primary has-checked:bg-primary-500 block rounded-full text-white transition-colors duration-100 cursor-pointer font-bold ';
@@ -31,6 +39,7 @@ const RadioInput = ({ label, size = 'md', name, id, checked, onChange }: RadioIn
         checked={checked}
         onChange={onChange}
         className="hidden"
+        {...rest}
       />
     </label>
   );
