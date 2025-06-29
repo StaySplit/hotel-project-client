@@ -46,7 +46,10 @@ const Header = () => {
               <h4 className="text-center">로그인</h4>
             </div>
 
-            <div aria-label="modal-content" className="flex h-[90%] flex-col justify-center">
+            <div
+              aria-label="modal-content"
+              className="flex h-[90svh] flex-col justify-center md:h-auto"
+            >
               <LoginForm />
             </div>
           </div>
