@@ -1,5 +1,5 @@
 import handleApiReqeust from '@/service/api/handleApiReqeust';
-import getHotels from '@/service/api/hotel/getHotels';
+import { getHotels } from '@/service/api/hotel';
 import type { IHotel } from '@/types/hotel/hotel.interface';
 import type { IPaginationResult } from '@/types/pageable/pagination-result.interface';
 import { useState } from 'react';
@@ -35,13 +35,29 @@ const useGetHotels = ({ label, size, sort }: { label: string; size: number; sort
     }
   };
 
-  const hasLabel = (val: string) => label === val;
+  const hasLabel = (val: string | null) => label === val;
+
+  const setHotelState = ({
+    hotelList,
+    page,
+    canUseTrigger,
+  }: {
+    hotelList?: IHotel[];
+    page?: number;
+    canUseTrigger?: boolean;
+  }) => {
+    if (hotelList !== undefined) setHotelList(hotelList);
+    if (page !== undefined) setPage(page);
+    if (canUseTrigger !== undefined) setCanUseTrigger(canUseTrigger);
+  };
 
   return {
     hotelList,
     handleAddHotelsToList,
     hasLabel,
     canUseTrigger,
+    page,
+    setHotelState
   };
 };
 
