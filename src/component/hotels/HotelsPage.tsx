@@ -1,30 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import HotelCardList from './HotelCardList';
 import HotelCard from './HotelCard';
 import { HotelScrollTrigger } from './HotelScrollTrigger';
 import HotelsBanner from './HotelsBanner';
 import HotelsSearchOptionBar from './HotelsSearchOptionBar';
 import useGetHotels from '@/hooks/useGetHotels';
-import type { IHotel } from '@/types/hotel/hotel.interface';
+import { useHotelStore } from '@/stores/useHotelsStore';
 
 const HotelsPage = () => {
+  const hotelStore = useHotelStore();
+
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
-  const [option, setOption] = useState<string | null>(null);
+  const [option, setOption] = useState<string>('이름 순');
 
   // 각 정렬 옵션별 훅
   const HotelsByNameOrder = useGetHotels({ label: '이름 순', size: 20, sort: 'name,asc' });
   const HotelsByReviewOrder = useGetHotels({ label: '리뷰 순', size: 20, sort: 'reviewCount,asc' });
   const HotelsByRatingOrder = useGetHotels({ label: '평점 순', size: 20, sort: 'rating,asc' });
 
-  const hasMountedRef = useRef(false);
+  // 현재 보여주고 있는 호텔 정렬 유형 반환
+  const getCurrentHotels = useCallback(() => {
+    if (HotelsByNameOrder.hasLabel(option)) return HotelsByNameOrder;
+    if (HotelsByReviewOrder.hasLabel(option)) return HotelsByReviewOrder;
+    return HotelsByRatingOrder;
+  }, [HotelsByNameOrder, HotelsByRatingOrder, HotelsByReviewOrder, option]);
+
+  // 현재 보여주고 있는 호텔 정렬 리스트에 호텔 추가
+  const triggerHotelLoad = useCallback(async () => {
+    await getCurrentHotels().handleAddHotelsToList();
+  }, [getCurrentHotels]);
+
+  // 호텔 카드 클릭시 작동할 하는 페이지 캐싱
+  // 여기부터 하자
+  const handleHotelClick = useCallback(() => {
+    hotelStore.setHotelState({
+      hotelList: getCurrentHotels().hotelList,
+      page: getCurrentHotels().page,
+      canUseTrigger: getCurrentHotels().canUseTrigger,
+      scrollY: window.scrollY,
+      label: option,
+    });
+  }, [option, getCurrentHotels, hotelStore]);
 
   useEffect(() => {
-    console.log(123);
-
-    // 최초 로딩만 여기서 실행
-    triggerHotelLoad('이름 순');
-    setOption('이름 순');
-
+    // 사용자가 호텔 카드 클릭으로 상세 페이지 이동 후 뒤로가기로 다시 돌아왔을 경우
+    console.log(123456789);
+    console.log(hotelStore);
+    if (hotelStore.label) {
+      setOption(hotelStore.label);
+    }
+    // 위치 정보 가져오기
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const lat = pos.coords.latitude;
@@ -44,31 +69,28 @@ const HotelsPage = () => {
 
   useEffect(() => {
     if (option === null) return;
-    console.log(456);
     const current = getCurrentHotels();
+    if (option === hotelStore.label) {
+      console.log(987654321);
+      console.log(hotelStore);
+      current.setHotelState({
+        canUseTrigger: hotelStore.canUseTrigger,
+        page: hotelStore.page,
+        hotelList: hotelStore.hotelList,
+      });
+      hotelStore.reset();
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: hotelStore.scrollY,
+          behavior: 'smooth', // 부드럽게 스크롤
+        });
+      });
+      return;
+    }
     if (current.hotelList.length === 0) {
-      triggerHotelLoad(option);
+      triggerHotelLoad();
     }
   }, [option]);
-
-  const triggerHotelLoad = async (currentOption: string) => {
-    if (HotelsByNameOrder.hasLabel(currentOption)) {
-      await HotelsByNameOrder.handleAddHotelsToList();
-    } else if (HotelsByReviewOrder.hasLabel(currentOption)) {
-      await HotelsByReviewOrder.handleAddHotelsToList();
-    } else if (HotelsByRatingOrder.hasLabel(currentOption)) {
-      await HotelsByRatingOrder.handleAddHotelsToList();
-    }
-  };
-
-  const getCurrentHotels = (): {
-    hotelList: IHotel[];
-    handleAddHotelsToList: () => Promise<boolean>;
-  } => {
-    if (HotelsByNameOrder.hasLabel(option)) return HotelsByNameOrder;
-    if (HotelsByReviewOrder.hasLabel(option)) return HotelsByReviewOrder;
-    return HotelsByRatingOrder;
-  };
 
   const { hotelList, handleAddHotelsToList } = getCurrentHotels();
 
@@ -82,7 +104,12 @@ const HotelsPage = () => {
         {hotelList.length > 0 ? (
           <HotelCardList>
             {hotelList.map((hotel, index) => (
-              <HotelCard key={index} hotel={hotel} handleChangeLike={() => {}} />
+              <HotelCard
+                handleHotelClick={handleHotelClick}
+                key={index}
+                hotel={hotel}
+                handleChangeLike={() => {}}
+              />
             ))}
             <HotelScrollTrigger onVisible={handleAddHotelsToList} />
           </HotelCardList>

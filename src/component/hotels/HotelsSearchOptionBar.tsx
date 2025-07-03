@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
 const options = ['이름 순', '리뷰 순', '평점 순'];
 
-const HotelsSearchOptionBar = ({ setOption, option }: { setOption: (option: string) => void, option: string }) => {
-
+const HotelsSearchOptionBar = ({
+  setOption,
+  option,
+}: {
+  setOption: (option: string) => void;
+  option: string | null;
+}) => {
   return (
     <div className="flex w-full justify-center">
       {options.map((val) => (

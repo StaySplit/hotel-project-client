@@ -1,16 +1,23 @@
 import { Link } from 'react-router-dom';
-import formatNumberWithComma from '@/utils/format/formatNumberWithComma';
 import HeartIcon from '../common/icons/HeartIcon';
 import { RatingStars } from '../card/RatingStars';
+import type { IHotel } from '@/types/hotel/hotel.interface';
 
-
-const HotelCard = ({ hotel, handleChangeLike }) => {
-
+const HotelCard = ({
+  hotel,
+  handleChangeLike,
+  handleHotelClick,
+}: {
+  hotel: IHotel;
+  handleChangeLike: () => void;
+  handleHotelClick: () => void;
+}) => {
   return (
-    <Link to="/">
+    <Link to={`/hotels/${hotel.hotelId}`}>
       <div
-        aria-label="웨스턴조선 부산"
+        aria-label={hotel.name}
         className="hover:border-primary-200 relative flex w-full gap-4 rounded-2xl border border-gray-200 p-4 transition-colors lg:max-w-[300px] lg:flex-col"
+        onClick={handleHotelClick}
       >
         <div className="bg-primary-700 h-[120px] w-[120px] shrink-0 rounded-2xl lg:h-[200px] lg:w-full">
           <img
@@ -20,7 +27,6 @@ const HotelCard = ({ hotel, handleChangeLike }) => {
         </div>
         <div className="w-full">
           <div className="flex items-center justify-between">
-            <p className="text-primary-700 text-xs lg:text-sm">{hotel.type}</p>
             <HeartIcon
               like={true}
               onClick={(e) => {
@@ -38,10 +44,8 @@ const HotelCard = ({ hotel, handleChangeLike }) => {
 
           <div className="mb-2 flex items-center gap-1">
             <RatingStars rating={1.2} />
-            <span className="text-xs text-gray-500">{`${hotel.reviewCount|| 0 > 1000 ? '999+' : hotel.reviewCount}`}</span>
+            <span className="text-xs text-gray-500">{`${hotel.reviewCount > 1000 ? '999+' : hotel.reviewCount}`}</span>
           </div>
-
-          <div className="text-end text-gray-700 lg:text-lg">{`₩${formatNumberWithComma(130000)}`}</div>
         </div>
       </div>
     </Link>
