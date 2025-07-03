@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import HotelCardList from './HotelCardList';
 import HotelCard from './HotelCard';
 import { HotelScrollTrigger } from './HotelScrollTrigger';
@@ -6,9 +6,11 @@ import HotelsBanner from './HotelsBanner';
 import HotelsSearchOptionBar from './HotelsSearchOptionBar';
 import useGetHotels from '@/hooks/useGetHotels';
 import { useHotelStore } from '@/stores/useHotelsStore';
+import { useNavigationType } from 'react-router-dom';
 
 const HotelsPage = () => {
   const hotelStore = useHotelStore();
+  const navigationType = useNavigationType();
 
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [option, setOption] = useState<string>('이름 순');
@@ -31,21 +33,18 @@ const HotelsPage = () => {
   }, [getCurrentHotels]);
 
   // 호텔 카드 클릭시 작동할 하는 페이지 캐싱
-  // 여기부터 하자
   const handleHotelClick = useCallback(() => {
+    const current = getCurrentHotels();
     hotelStore.setHotelState({
-      hotelList: getCurrentHotels().hotelList,
-      page: getCurrentHotels().page,
-      canUseTrigger: getCurrentHotels().canUseTrigger,
+      hotelList: current.hotelList,
+      page: current.page,
+      canUseTrigger: current.canUseTrigger,
       scrollY: window.scrollY,
       label: option,
     });
   }, [option, getCurrentHotels, hotelStore]);
 
   useEffect(() => {
-    // 사용자가 호텔 카드 클릭으로 상세 페이지 이동 후 뒤로가기로 다시 돌아왔을 경우
-    console.log(123456789);
-    console.log(hotelStore);
     if (hotelStore.label) {
       setOption(hotelStore.label);
     }
@@ -68,11 +67,13 @@ const HotelsPage = () => {
   }, []);
 
   useEffect(() => {
+    // option null이면 실행 안함.
     if (option === null) return;
+
     const current = getCurrentHotels();
-    if (option === hotelStore.label) {
-      console.log(987654321);
-      console.log(hotelStore);
+    // option 페이지가 캐싱되어있다면 해당 캐싱된 데이터를 가져옴
+    // 가져오는 조건은 브라우저의 뒤로가기를 사용하였을 경우임.
+    if (option === hotelStore.label && navigationType === 'POP') {
       current.setHotelState({
         canUseTrigger: hotelStore.canUseTrigger,
         page: hotelStore.page,
@@ -82,11 +83,12 @@ const HotelsPage = () => {
       requestAnimationFrame(() => {
         window.scrollTo({
           top: hotelStore.scrollY,
-          behavior: 'smooth', // 부드럽게 스크롤
+          behavior: 'smooth',
         });
       });
       return;
     }
+    // option 페이지가 캐싱되어 있지 않다면 api요청을 통해 가져옴.
     if (current.hotelList.length === 0) {
       triggerHotelLoad();
     }
