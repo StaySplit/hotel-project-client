@@ -6,7 +6,7 @@ interface HotelCardListProps {
 }
 
 const HotelCardList = ({ children, className }: HotelCardListProps) => {
-  return <div className={`grid grid-cols-4 gap-4 ${className}`}>{children}</div>;
+  return <div className={`grid grid-cols-5 gap-4 ${className}`}>{children}</div>;
 };
 
 export default HotelCardList;
