@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 
 import type Response from '@/types/Responsne';
 
@@ -15,17 +15,20 @@ import type Response from '@/types/Responsne';
  * @returns ResponseData
  */
 
-const handleApiReqeust = async <T>(fetchApi: () => Promise<Response<T>>): Promise<T> => {
+const handleApiReqeust = async <T>(
+  fetchApi: () => Promise<AxiosResponse<Response<T>>>,
+): Promise<T> => {
   try {
     const response = await fetchApi();
-
-    if (response.resultCode === 'SUCCESS') {
-      return response.result;
+    console.log(response);
+    if (response.data.resultCode === 'SUCCESS') {
+      return response.data.result;
     }
 
     // resultCode != SUCCESS 일 시 모든 요청 throw
-    throw response.result;
+    throw response.data.result;
   } catch (error) {
+    console.log('handlReqeustError', error);
     if (axios.isAxiosError<Response<T>>(error)) {
       if (error.status === 500) {
         // 500 -> 서버에러
@@ -39,7 +42,7 @@ const handleApiReqeust = async <T>(fetchApi: () => Promise<Response<T>>): Promis
     }
 
     // 기타 에러
-    throw '알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    throw error;
   }
 };
 
