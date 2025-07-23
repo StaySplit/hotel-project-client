@@ -1,19 +1,19 @@
 import React from 'react';
-import { Card } from '../common/card/Card';
-import type { IReview } from '@/interface/hotel/hotel-review.interface';
+import type { IReview } from '@/types/review/review.interface';
+import HotelReview from './HotelReview';
+
 
 const HotelReviews = ({ reviews }: { reviews: IReview[] }) => {
+  if (!reviews.length) {
+    return null;
+  }
+
   return (
-    <div className="w-290">
-      <Card>
-        <div className="flex gap-3">
-          {reviews.map((review) => (
-            <div className="w-90">
-              <Card>{review.content}</Card>
-            </div>
-          ))}
-        </div>
-      </Card>
+    <div className="flex w-full flex-col gap-2 pb-4">
+      <div className="border-gray-primary border-b pb-2 mb-8 text-2xl">{reviews.length}개의 리뷰</div>
+      {reviews.map((review) => (
+        <HotelReview review={review} />
+      ))}
     </div>
   );
 };

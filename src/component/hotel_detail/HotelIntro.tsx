@@ -1,41 +1,36 @@
-import React from 'react';
-import { Card } from '../common/card/Card';
-import Text from '../common/Text/Text';
-import type { IHotel } from '@/interface/hotel/hotel.interface';
+import type { IHotelDetail } from '@/types/hotel/hotel-detail.interface';
 import halfStar from '@/assets/svg/harf-star-left.svg';
 import star from '@/assets/svg/star.svg';
 import getStarRating from '@/utils/rating/getStarRating';
 
-const HotelIntro = ({ hotel }: { hotel: IHotel }) => {
-  const [fullStars, hasHalfStar] = getStarRating(Number(hotel.rating));
+const HotelIntro = ({ hotelDetail }: { hotelDetail: IHotelDetail }) => {
+  console.log(hotelDetail);
+  const [fullStars, hasHalfStar] = getStarRating(Number(hotelDetail.rating));
 
   // 설명, 좋아요, 가장 싼 가격
+  // 이미지는 나중에 생각하기 성급까지 넣고 싶지는 않다 수고해라
   return (
-    <div className="w-290">
-      <Card>
-        <div className='flex justify-between'>
-        <Text size="text-lg">{hotel.name}</Text>
-        <div>좋아요</div>
-        </div>
-        <div className="flex items-center gap-1 mb-3">
+    <div className="flex w-full flex-col items-center">
+      <div className="text-primary-500 flex justify-between">
+        <div className="mb-2 text-lg font-bold">{hotelDetail.name}</div>
+      </div>
+      <div className='text-gray-primary mb-4'>
+        {hotelDetail.address}
+      </div>
+      <div className="mb-2 flex w-200 justify-center text-2xl text-black">
+        {hotelDetail.description}
+      </div>
+      <div className="flex h-20 w-225 items-center justify-between rounded-[4rem] border border-gray-300 bg-white">
+        <div className="flex flex-1 items-center justify-center">
+          <div className="mr-4 text-2xl">{`평점: `}</div>
           {Array.from({ length: fullStars }).map(() => (
-            <img src={star} />
+            <img className="h-8 w-8" src={star} />
           ))}
-          {hasHalfStar ? <img src={halfStar} /> : null}
-          <Text color="sub" size="text-sm">
-            {hotel.review_count}개의 리뷰
-          </Text>
+          {hasHalfStar ? <img className="h-8 w-8" src={halfStar} /> : null}
         </div>
-        <Text size='text-sm mb-3'>위치: {hotel.address}</Text>
-        <div className="flex">
-          <div className="h-80 w-120 min-h-80 min-w-120 mr-3">
-            <img className="h-full w-full object-cover" src={hotel.image_url} />
-          </div>
-          <div className='flex flex-col'>
-            <Text color='primary' size='text-lg'>{hotel.description}</Text>
-          </div>
-        </div>
-      </Card>
+        <div className="h-3/5 border-r border-gray-300" />
+        <div className="flex flex-1 justify-center text-2xl">{hotelDetail.reviewCount}개의 리뷰</div>
+      </div>
     </div>
   );
 };

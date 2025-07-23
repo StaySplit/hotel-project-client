@@ -2,6 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Provider from '@/provider';
 import Layout from '@/layout/Layout';
+import HotelsPage from '@/component/hotels/HotelsPage';
+import HotelDetailPage from '@/component/hotel_detail/HotelDetailPage';
+import BookingPage from '@/component/booking/BookingPage';
 
 import HomePage from '@/pages/HomePage';
 
@@ -21,9 +24,24 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+
         path: '/sign-up',
         element: <SignUpPage />,
       },
+        path: 'hotels',
+        element: <HotelsPage />
+      }
+      ,
+      {
+        path: 'hotels/:hotelId',
+        element: <HotelDetailPage />
+      }
+      ,
+      {
+        path: 'booking',
+        element: <BookingPage />
+      }
+
     ],
   },
 ]);
