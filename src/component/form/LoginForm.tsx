@@ -3,15 +3,18 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { LoginSchema } from '@/schema/AuthSchema';
+import { LoginSchema, type LoginType } from '@/schema/AuthSchema';
 
 import Kakao from '../../assets/icons/Kakao.svg';
-import Naver from '../../assets/icons/Naver.svg';
 import Google from '../../assets/icons/Google.svg';
 
 import RHFInput from '../common/input/RHFInput';
 import { PrimaryButton } from '../common/button/PrimaryButton';
-import { useState } from 'react';
+
+interface LoginFormProps {
+  onSubmit: (data: LoginType) => void;
+  formError?: string;
+}
 
 const LoginFeilds = [
   {
@@ -34,47 +37,18 @@ const oAuthLogin = [
     imageSrc: Kakao,
   },
   {
-    id: 'naver',
-    path: '/',
-    imageSrc: Naver,
-  },
-  {
     id: 'google',
     path: '/',
     imageSrc: Google,
   },
 ];
 
-const getButtonStyle = (currentState: boolean) => {
-  const baseStyle = 'w-full cursor-pointer rounded-full py-2 transition-colors ';
-  const activeStyle = 'text-white bg-primary-500';
-
-  if (currentState) {
-    return baseStyle + activeStyle;
-  } else {
-    return baseStyle;
-  }
-};
-
-const LoginForm = () => {
-  const [role, setRole] = useState<'customer' | 'provider'>('customer');
-
-  const { control, handleSubmit, formState, setError, clearErrors } = useForm({
+const LoginForm = ({ onSubmit, formError }: LoginFormProps) => {
+  const { control, handleSubmit, formState, clearErrors } = useForm({
     resolver: zodResolver(LoginSchema),
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
   });
-
-  const onSubmit = async () => {
-    setError('root', { message: 'Form error' });
-
-    // try {
-    //   //Login
-    // } catch (err) {
-    //setError('root',{message : err as string})
-    // Error Handle
-    // }
-  };
 
   // Focus 했을 때 Error Clear
   const handleFocus = () => {
@@ -83,18 +57,10 @@ const LoginForm = () => {
 
   return (
     <>
-      <div className="border-gray-primary mt-8 mb-4 flex items-center overflow-hidden rounded-full border">
-        <button onClick={() => setRole('customer')} className={getButtonStyle(role === 'customer')}>
-          일반회원
-        </button>
-        <button onClick={() => setRole('provider')} className={getButtonStyle(role === 'provider')}>
-          사업자
-        </button>
-      </div>
       <form
         onFocus={handleFocus}
         onSubmit={handleSubmit(onSubmit)}
-        className="border-gray-primary border-b pb-8"
+        className="border-gray-primary border-b py-8"
       >
         <div className="mb-4">
           {/* Form Field */}
@@ -109,9 +75,7 @@ const LoginForm = () => {
               />
             </div>
           ))}
-          {formState.errors && formState.errors.root?.message && (
-            <p className="text-error pt-2 text-sm">{formState.errors.root.message}</p>
-          )}
+          {formError && <p className="text-error pt-2 text-sm">{formError}</p>}
         </div>
 
         {/* Form Submit */}

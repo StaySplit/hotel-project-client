@@ -1,18 +1,38 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import useAuthStore from '@/store/useAuthStore';
+
+import { ArrowLeft } from 'lucide-react';
+
+import { login } from '@/service/api/auth';
+import type { LoginType } from '@/schema/AuthSchema';
+
 import Logo from '@/assets/svg/Logo.svg';
 import SymbolLogo from '/union.svg';
-import { PrimaryButton } from '@/component/common/button/PrimaryButton';
-import { SecondaryButton } from '@/component/common/button/SecondaryButton';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+
 import Modal from '@/component/modal/Modal';
-import { ArrowLeft } from 'lucide-react';
 import LoginForm from '@/component/form/LoginForm';
+import { PrimaryButton } from '@/component/common/button/PrimaryButton';
 
 const Header = () => {
+  const { setUserRole, role } = useAuthStore();
+
   const [modal, setModal] = useState<boolean>(false);
+  const [formError, setFormError] = useState<string>();
 
   const handleToggleModal = () => {
     setModal((prev) => !prev);
+  };
+
+  const onSubmit = async (data: LoginType) => {
+    try {
+      const response = await login(data);
+      setUserRole(response);
+      setModal(false);
+    } catch (err) {
+      setFormError(err as string);
+    }
   };
 
   return (
@@ -20,15 +40,24 @@ const Header = () => {
       <header className="flex w-full items-center justify-between p-4 md:py-6">
         <h1>
           <Link to="/">
-            <img src={Logo} className="hidden w-[150px] md:block" alt="stay split logo" />
+            <img src={Logo} className="hidden w-[140px] md:block" alt="stay split logo" />
             <img src={SymbolLogo} className="size-12 md:hidden" alt="stay split logo" />
           </Link>
         </h1>
         <nav className="flex gap-2">
-          <SecondaryButton size="sm">회원가입</SecondaryButton>
-          <PrimaryButton size="sm" onClick={handleToggleModal}>
-            로그인
-          </PrimaryButton>
+          {role === null && (
+            <>
+              <Link
+                to="/sign-up"
+                className="border-primary-500 text-primary-500 hover:text-primary-600 hover:border-primary-600 active:text-primary-700 active:border-primary-700 block cursor-pointer rounded-xl border bg-white px-4 py-1.5 text-sm transition-colors duration-150"
+              >
+                회원가입
+              </Link>
+              <PrimaryButton size="sm" onClick={handleToggleModal}>
+                로그인
+              </PrimaryButton>
+            </>
+          )}
         </nav>
       </header>
 
@@ -50,7 +79,7 @@ const Header = () => {
               aria-label="modal-content"
               className="flex h-[90svh] flex-col justify-center md:h-auto"
             >
-              <LoginForm />
+              <LoginForm onSubmit={onSubmit} formError={formError} />
             </div>
           </div>
         </Modal>

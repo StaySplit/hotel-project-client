@@ -3,9 +3,9 @@ import Header from './Header';
 
 const Layout = () => {
   return (
-    <div className="mx-auto w-full max-w-[1400px]">
+    <div className="mx-auto flex h-svh w-full max-w-[1400px] flex-col">
       <Header />
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <footer>공통 푸터</footer>
