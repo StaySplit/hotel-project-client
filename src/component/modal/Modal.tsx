@@ -31,7 +31,6 @@ const Modal = ({ isOpen, onClose, children, full = false }: ModalProps) => {
     if (isOpen) {
       // 백버튼 모달 Close 로직
       window.history.pushState({ modal: true }, '');
-
       const handlePopState = () => {
         onClose();
         console.log('pop');
@@ -49,12 +48,12 @@ const Modal = ({ isOpen, onClose, children, full = false }: ModalProps) => {
 
   return createPortal(
     <dialog
-      className={`mx-auto min-h-svh w-full bg-transparent backdrop:bg-black/40 ${full ? 'min-w-[100vw] md:min-w-0' : 'w-full'} flex items-center justify-center`}
+      className={`z-50 mx-auto min-h-svh w-full touch-none overflow-hidden bg-transparent backdrop:bg-black/40 ${full ? 'min-w-[100vw] md:min-w-0' : 'w-full'} flex items-center justify-center`}
       ref={modalRef}
       onClose={() => onClose()}
     >
       <div
-        className={`relative w-full max-w-[500px] bg-white p-5 ${full ? 'h-svh md:h-auto md:rounded-2xl' : 'rounded-2xl'}`}
+        className={`relative w-full bg-white p-5 md:max-w-[500px] ${full ? 'h-svh md:h-auto md:rounded-2xl' : 'rounded-2xl'}`}
       >
         {children}
       </div>
