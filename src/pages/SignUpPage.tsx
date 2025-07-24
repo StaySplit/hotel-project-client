@@ -1,7 +1,10 @@
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
-import SignupForm from '@/component/form/SignupForm';
+import GeneralRegisterForm from '@/component/form/auth/GeneralRegisterForm';
+import type { GeneralRegisterType } from '@/schema/AuthSchema';
+import { GeneralSignup, login } from '@/service/api/auth';
 import type UserRole from '@/types/user/UserRole';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const getButtonStyle = (currentState: boolean) => {
   const baseStyle = 'w-full cursor-pointer rounded-full py-2 transition-colors ';
@@ -15,7 +18,22 @@ const getButtonStyle = (currentState: boolean) => {
 };
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const [role, setRole] = useState<UserRole>('ROLE_CUSTOMER');
+
+  const handleSubmit = async (data: GeneralRegisterType) => {
+    try {
+      const response = await GeneralSignup(role, data);
+      if (response.id) {
+        await login({ email: data.email, password: data.password });
+        return navigate('/');
+      }
+
+      navigate('/login');
+    } catch (error) {
+      return error as string;
+    }
+  };
 
   return (
     <section className="mx-auto flex h-full w-full max-w-[500px] flex-col justify-between px-4 pb-4">
@@ -39,7 +57,7 @@ const SignUpPage = () => {
             사업자
           </button>
         </div>
-        <SignupForm role={role} />
+        <GeneralRegisterForm onSubmit={handleSubmit} />
       </div>
 
       <PrimaryButton form="sign-up" full>
