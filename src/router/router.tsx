@@ -7,6 +7,8 @@ import HomePage from '@/pages/HomePage';
 
 import SignUpPage from '@/pages/SignUpPage';
 
+import LoginFallbackPage from '@/pages/LoginFallbackPage';
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -23,6 +25,11 @@ export const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignUpPage />,
+      },
+
+      {
+        path: '/login/oauth/:identifier',
+        element: <LoginFallbackPage />,
       },
     ],
   },
