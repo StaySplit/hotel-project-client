@@ -35,6 +35,10 @@ const handleApiReqeust = async <T>(
         throw '서버에서 오류가 발생했습니다.';
       }
 
+      if (error.status === 403) {
+        throw '서버에서 오류가 발생했습니다.';
+      }
+
       if (error.response && error.response.data.resultCode === 'ERROR') {
         // 요청 에러
         throw error.response.data.result || '요청을 정상적으로 처리하지 못했습니다.';
