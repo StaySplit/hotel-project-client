@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+* {
+  /* DayPicker Button Color */
+  --rdp-accent-color: #4a6ca0;
+}
+
 @font-face {
   font-family: 'Pretendard';
   font-weight: 300;
@@ -45,4 +50,9 @@
 
 body {
   min-height: 100vh;
+}
+
+.selected-range {
+  background-color: #2196f3;
+  color: white;
 }
