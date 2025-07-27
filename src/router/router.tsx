@@ -9,6 +9,9 @@ import BookingPage from '@/component/booking/BookingPage';
 import HomePage from '@/pages/HomePage';
 
 import SignUpPage from '@/pages/SignUpPage';
+import SearchPage from '@/pages/SearchPage';
+import SearchLayout, { searchLoader } from '@/layout/SearchLayout';
+import LoginFallbackPage from '@/pages/LoginFallbackPage';
 
 export const router = createBrowserRouter([
   {
@@ -24,24 +27,32 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-
         path: '/sign-up',
         element: <SignUpPage />,
       },
+      {
+        path: '/search',
+        id: 'search',
+        element: <SearchLayout />,
+        loader: searchLoader,
+        children: [{ index: true, element: <SearchPage /> }],
+      },
+      {
+        path: '/login/oauth/:identifier',
+        element: <LoginFallbackPage />,
+      },
+      {
         path: 'hotels',
-        element: <HotelsPage />
-      }
-      ,
+        element: <HotelsPage />,
+      },
       {
         path: 'hotels/:hotelId',
-        element: <HotelDetailPage />
-      }
-      ,
+        element: <HotelDetailPage />,
+      },
       {
         path: 'booking',
-        element: <BookingPage />
-      }
-
+        element: <BookingPage />,
+      },
     ],
   },
 ]);

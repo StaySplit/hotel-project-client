@@ -12,7 +12,7 @@ import Logo from '@/assets/svg/Logo.svg';
 import SymbolLogo from '/union.svg';
 
 import Modal from '@/component/modal/Modal';
-import LoginForm from '@/component/form/LoginForm';
+import LoginForm from '@/component/form/auth/LoginForm';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
 
 const Header = () => {

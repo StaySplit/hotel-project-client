@@ -1,17 +1,14 @@
 import { useController, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { RegisterSchema, type RegisterType } from '@/schema/AuthSchema';
+import { GeneralRegisterSchema, type GeneralRegisterType } from '@/schema/AuthSchema';
 
 import { formatBirthDate } from '@/utils/format/formatBirthDate';
 
-import CommonInput from '../common/input/CommonInput';
-import RHFInput from '../common/input/RHFInput';
-import type UserRole from '@/types/user/UserRole';
-import { login, signUp } from '@/service/api/auth';
-import { useNavigate } from 'react-router-dom';
+import CommonInput from '../../common/input/CommonInput';
+import RHFInput from '../../common/input/RHFInput';
 
-const SignUpFields = [
+const GeneralRegisterFields = [
   {
     name: 'name' as const,
     label: '이름',
@@ -46,40 +43,37 @@ const SignUpFields = [
   },
 ];
 
-const SignupForm = ({ role }: { role: UserRole }) => {
-  const navigate = useNavigate();
+interface GeneralRegisterFormProps {
+  onSubmit: (data: GeneralRegisterType) => Promise<string | void>;
+}
 
-  const { control, handleSubmit, setError, formState } = useForm({
-    resolver: zodResolver(RegisterSchema),
+const GeneralRegisterForm = ({ onSubmit }: GeneralRegisterFormProps) => {
+  const { control, handleSubmit, formState, setError } = useForm({
+    resolver: zodResolver(GeneralRegisterSchema),
     mode: 'onSubmit',
   });
 
   const { field: birthField, fieldState } = useController({ name: 'birthdate', control });
 
-  const onSubmit = async (data: RegisterType) => {
-    try {
-      const response = await signUp(role, data);
-      console.log(response.id);
-      if (response.id) {
-        console.log('trigger');
-        const response = await login({ email: data.email, password: data.password });
-        console.log(response);
-        return navigate('/');
-      }
+  const handleSubmitRegister = async (data: GeneralRegisterType) => {
+    const error = await onSubmit(data);
 
-      navigate('/login');
-    } catch (error) {
-      console.log(error);
-      setError('root', { message: error as string });
+    if (error) {
+      setError('root', { message: error });
     }
   };
+
   return (
     <>
       {formState.errors && formState.errors.root?.message && (
         <p className="text-error pt-2 text-sm">{formState.errors.root.message}</p>
       )}
-      <form id="sign-up" className="mb-4 space-y-2 py-2" onSubmit={handleSubmit(onSubmit)}>
-        {SignUpFields.map((field) =>
+      <form
+        id="sign-up-general"
+        className="mb-4 space-y-2 py-2"
+        onSubmit={handleSubmit(handleSubmitRegister)}
+      >
+        {GeneralRegisterFields.map((field) =>
           field.name === 'birthdate' ? (
             (() => {
               return (
@@ -108,4 +102,4 @@ const SignupForm = ({ role }: { role: UserRole }) => {
   );
 };
 
-export default SignupForm;
+export default GeneralRegisterForm;

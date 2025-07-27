@@ -4,7 +4,9 @@ import handleApiReqeust from './handleApiReqeust';
 
 import type UserInfo from '@/types/user/UserInfo';
 import type UserRole from '@/types/user/UserRole';
-import type { LoginType, RegisterType } from '@/schema/AuthSchema';
+import type { GeneralRegisterType, LoginType, SocialRegisterType } from '@/schema/AuthSchema';
+
+type oAuthIdentity = 'kakao' | 'google';
 
 const getSignUpApiUrl = (role: UserRole) => {
   if (role === 'ROLE_CUSTOMER') {
@@ -14,14 +16,30 @@ const getSignUpApiUrl = (role: UserRole) => {
   }
 };
 
-export const signUp = async (role: UserRole, data: RegisterType) => {
+export const GeneralSignup = async (role: UserRole, data: GeneralRegisterType) => {
   const response = await handleApiReqeust<UserInfo>(() => client.post(getSignUpApiUrl(role), data));
+
+  return response;
+};
+
+export const SocialSignup = async (data: SocialRegisterType, socialId: oAuthIdentity) => {
+  const response = await handleApiReqeust<UserInfo>(() =>
+    client.post('/api/customers/signup/oauth', { ...data, socialId }),
+  );
 
   return response;
 };
 
 export const login = async (data: LoginType) => {
   const response = await handleApiReqeust<UserRole>(() => client.post('/api/users/login', data));
+
+  return response;
+};
+
+export const oAuthLogin = async (identifier: oAuthIdentity, code: string) => {
+  const response = await handleApiReqeust(() =>
+    client.post(`/api/customers/${identifier}/login`, { code }),
+  );
 
   return response;
 };

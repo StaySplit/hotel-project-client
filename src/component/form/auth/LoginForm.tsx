@@ -5,11 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { LoginSchema, type LoginType } from '@/schema/AuthSchema';
 
-import Kakao from '../../assets/icons/Kakao.svg';
-import Google from '../../assets/icons/Google.svg';
+import Kakao from '../../../assets/icons/Kakao.svg';
+import Google from '../../../assets/icons/Google.svg';
 
-import RHFInput from '../common/input/RHFInput';
-import { PrimaryButton } from '../common/button/PrimaryButton';
+import RHFInput from '../../common/input/RHFInput';
+import { PrimaryButton } from '../../common/button/PrimaryButton';
 
 interface LoginFormProps {
   onSubmit: (data: LoginType) => void;
@@ -33,12 +33,12 @@ const LoginFeilds = [
 const oAuthLogin = [
   {
     id: 'kakao',
-    path: '/',
+    path: import.meta.env.VITE_KAKAO_AUTH_URL,
     imageSrc: Kakao,
   },
   {
     id: 'google',
-    path: '/',
+    path: import.meta.env.VITE_GOOGLE_AUTH_URL,
     imageSrc: Google,
   },
 ];
