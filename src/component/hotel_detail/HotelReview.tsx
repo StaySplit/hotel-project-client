@@ -3,8 +3,6 @@ import star from '@/assets/svg/star.svg';
 import type { IReview } from '@/types/review/review.interface';
 import getStarRating from '@/utils/rating/getStarRating';
 
-import React from 'react';
-
 const HotelReview = ({ review }: { review: IReview }) => {
   const [fullStars, hasHalfStar] = getStarRating(Number(review.rating));
   console.log(fullStars);

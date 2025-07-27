@@ -58,7 +58,7 @@ const HomePage = () => {
         <ul className="flex flex-col gap-4 lg:grid lg:grid-cols-5">
           {Array(8)
             .fill(5)
-            .map((el, idx) => (
+            .map((idx) => (
               <li key={idx} className="w-full">
                 <HotelCard liked={like} handleChangeLike={() => setLike((prev) => !prev)} />
               </li>
