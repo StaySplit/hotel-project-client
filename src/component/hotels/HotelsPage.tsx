@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import HotelCardList from './HotelCardList';
 import HotelCard from './HotelCard';
 import { HotelScrollTrigger } from './HotelScrollTrigger';
@@ -64,6 +64,8 @@ const HotelsPage = () => {
         maximumAge: 0,
       },
     );
+    //FIX ME: position은 언제 쓰는지, 쓴다면 사용되는 로직 삽입 후 아래의 로그 제거
+    console.log(position);
   }, []);
 
   useEffect(() => {

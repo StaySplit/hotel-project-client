@@ -57,7 +57,7 @@ const useGetHotels = ({ label, size, sort }: { label: string; size: number; sort
     hasLabel,
     canUseTrigger,
     page,
-    setHotelState
+    setHotelState,
   };
 };
 
