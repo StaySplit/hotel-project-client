@@ -1,4 +1,3 @@
-import { PrimaryButton } from '@/component/common/button/PrimaryButton';
 import GeneralRegisterForm from '@/component/form/auth/GeneralRegisterForm';
 import type { GeneralRegisterType } from '@/schema/AuthSchema';
 import { GeneralSignup, login } from '@/service/api/auth';
@@ -59,10 +58,6 @@ const SignUpPage = () => {
         </div>
         <GeneralRegisterForm onSubmit={handleSubmit} />
       </div>
-
-      <PrimaryButton form="sign-up" full>
-        가입하기
-      </PrimaryButton>
     </section>
   );
 };

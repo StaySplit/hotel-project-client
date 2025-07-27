@@ -7,6 +7,7 @@ import { formatBirthDate } from '@/utils/format/formatBirthDate';
 
 import CommonInput from '../../common/input/CommonInput';
 import RHFInput from '../../common/input/RHFInput';
+import { PrimaryButton } from '@/component/common/button/PrimaryButton';
 
 const GeneralRegisterFields = [
   {
@@ -69,7 +70,7 @@ const GeneralRegisterForm = ({ onSubmit }: GeneralRegisterFormProps) => {
         <p className="text-error pt-2 text-sm">{formState.errors.root.message}</p>
       )}
       <form
-        id="sign-up-general"
+        id="sign-up"
         className="mb-4 space-y-2 py-2"
         onSubmit={handleSubmit(handleSubmitRegister)}
       >
@@ -97,6 +98,9 @@ const GeneralRegisterForm = ({ onSubmit }: GeneralRegisterFormProps) => {
             </div>
           ),
         )}
+        <PrimaryButton form="sign-up" full>
+          가입하기
+        </PrimaryButton>
       </form>
     </>
   );
