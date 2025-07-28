@@ -1,7 +1,6 @@
 import type { IRoom } from '@/types/room/room.interface';
-import React from 'react';
 
-const HotelRoom = ({ imgPosition, room }: { imgPosition: 'right' | 'left'; room: IRoom }) => {
+const HotelRoom = ({ imgPosition }: { imgPosition: 'right' | 'left'; room: IRoom }) => {
   return (
     <div
       className={`flex ${imgPosition === 'left' ? 'flex-row' : 'flex-row-reverse'} bg-primary-100 h-100 w-full rounded-2xl`}
@@ -35,5 +34,3 @@ const HotelRoom = ({ imgPosition, room }: { imgPosition: 'right' | 'left'; room:
 };
 
 export default HotelRoom;
-
-//

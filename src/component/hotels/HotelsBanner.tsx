@@ -1,9 +1,5 @@
-import React from 'react'
-
 const HotelsBanner = () => {
-  return (
-    <div className="w-full h-64 rounded-2xl bg-[url('/map.png')] bg-cover bg-center mb-8" />
-  )
-}
+  return <div className="mb-8 h-64 w-full rounded-2xl bg-[url('/map.png')] bg-cover bg-center" />;
+};
 
-export default HotelsBanner
+export default HotelsBanner;

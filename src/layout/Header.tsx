@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import useAuthStore from '@/store/useAuthStore';
 
@@ -20,6 +20,12 @@ const Header = () => {
 
   const [modal, setModal] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setModal(false);
+  }, [location.pathname]);
 
   const handleToggleModal = () => {
     setModal((prev) => !prev);
