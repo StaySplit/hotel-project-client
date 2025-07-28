@@ -38,7 +38,7 @@ const oAuthLogin = [
   },
   {
     id: 'google',
-    path: import.meta.env.VITE_GOOGLE_AUTH_URL,
+    path: `${import.meta.env.VITE_GOOGLE_AUTH_URL}?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_GOOGLE_REDIRECT_URI}&response_type=code&scope=openid%20email%20profile&state=google`,
     imageSrc: Google,
   },
 ];
@@ -100,9 +100,9 @@ const LoginForm = ({ onSubmit, formError }: LoginFormProps) => {
         <p className="mb-4 text-center text-gray-500">간편 로그인</p>
         <div className="flex items-center justify-center gap-10">
           {oAuthLogin.map((oAuth) => (
-            <Link to={oAuth.path} key={oAuth.id} aria-label={`${oAuth.id} login button`}>
+            <a href={oAuth.path} key={oAuth.id} aria-label={`${oAuth.id} login button`}>
               <img src={oAuth.imageSrc} alt={oAuth.id} className="size-12" />
-            </Link>
+            </a>
           ))}
         </div>
       </div>

@@ -22,9 +22,10 @@ export const GeneralSignup = async (role: UserRole, data: GeneralRegisterType) =
   return response;
 };
 
-export const SocialSignup = async (data: SocialRegisterType, socialId: oAuthIdentity) => {
+export const SocialSignup = async (data: SocialRegisterType) => {
+  //FIXME: 서버의 getGoolgleProfile에서 유저 정보 가져오면 수정되어야함.
   const response = await handleApiReqeust<UserInfo>(() =>
-    client.post('/api/customers/signup/oauth', { ...data, socialId }),
+    client.post('/api/customers/oauth/signup', { ...data, socialId: data.email }),
   );
 
   return response;

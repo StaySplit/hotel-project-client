@@ -30,7 +30,10 @@ const SignUpPage = () => {
 
       navigate('/login');
     } catch (error) {
-      return error as string;
+      if (error instanceof Error) {
+        return error.message;
+      }
+      return '알 수 없는 오류 발생';
     }
   };
 
