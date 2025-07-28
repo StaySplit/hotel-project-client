@@ -9,6 +9,8 @@ import HomePage from '@/pages/HomePage';
 
 import SignUpPage from '@/pages/SignUpPage';
 import LoginFallbackPage from '@/pages/LoginFallbackPage';
+import SearchLayout, { searchLoader } from '@/layout/SearchLayout';
+import SearchPage from '@/pages/SearchPage';
 
 export const router = createBrowserRouter([
   {
@@ -27,13 +29,13 @@ export const router = createBrowserRouter([
         path: '/sign-up',
         element: <SignUpPage />,
       },
-      /*       {
+      {
         path: '/search',
         id: 'search',
         element: <SearchLayout />,
         loader: searchLoader,
         children: [{ index: true, element: <SearchPage /> }],
-      }, */
+      },
       {
         path: '/oauth/:identifier',
         element: <LoginFallbackPage />,
