@@ -1,11 +1,12 @@
 import RadioInput from '@/component/common/input/RadioInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import HotelCard from '@/component/card/HotelCard';
 import SearchForm from '@/component/form/SearchForm';
 
 import useGetInfiniteAllHotels from '@/hooks/queries/hotels/useGetInfiniteHotels';
 import CardSkeleton from '@/component/ui/CardSkeleton';
+import useObserver from '@/hooks/useObserver';
 
 const CategoryGroup = [
   {
@@ -22,7 +23,14 @@ const HomePage = () => {
   const [radio, setRadio] = useState('seoul');
   const [like, setLike] = useState(false);
 
-  const { data, isLoading } = useGetInfiniteAllHotels();
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetching } = useGetInfiniteAllHotels();
+  const { ref, isView } = useObserver();
+
+  useEffect(() => {
+    if (isView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [isView, fetchNextPage, hasNextPage]);
 
   return (
     <section className="w-full px-4">
@@ -56,16 +64,23 @@ const HomePage = () => {
             </li>
           ))}
         </ul>
-
         <ul className="flex flex-col gap-4 lg:grid lg:grid-cols-5">
-          {isLoading && <CardSkeleton />}
           {!isLoading &&
-            data?.pages[0].content.map((el) => (
-              <li key={el.hotelId} className="w-full">
-                <HotelCard {...el} liked={like} handleChangeLike={() => setLike((prev) => !prev)} />
-              </li>
-            ))}
+            data?.pages
+              .flatMap((el) => el.content)
+              .map((hotel) => (
+                <li key={hotel.hotelId} className="w-full">
+                  <HotelCard
+                    {...hotel}
+                    liked={like}
+                    handleChangeLike={() => setLike((prev) => !prev)}
+                  />
+                </li>
+              ))}
+          {isFetching && <CardSkeleton />}
         </ul>
+        {/* Observer */}
+        <div className="min-h-[1px] w-full" ref={ref} />
       </div>
     </section>
   );
