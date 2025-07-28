@@ -24,7 +24,6 @@ const searchSchema = {
 
 const SearchLayout = () => {
   const searchTerm = useLoaderData();
-  console.log(searchTerm);
   return (
     <section className="flex h-full flex-col justify-between px-4">
       <SearchForm {...searchTerm} />
