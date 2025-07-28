@@ -10,7 +10,7 @@ const CardSkeleton = ({ length = 10 }: CardSkeletonProps) => {
         .map((_, idx) => (
           <div
             key={idx}
-            className="bg-gray-primary/30 itmes-center flex h-[154px] w-full animate-pulse gap-4 rounded-2xl p-4"
+            className="bg-gray-primary/30 itmes-center flex h-[154px] w-full animate-pulse gap-4 rounded-2xl p-4 md:h-[372px] md:flex-col md:justify-between"
           >
             <div className="bg-gray-primary h-[120px] w-[120px] shrink-0 animate-pulse rounded-2xl lg:h-[200px] lg:w-full"></div>
             <div className="flex w-full flex-col justify-around gap-2">
