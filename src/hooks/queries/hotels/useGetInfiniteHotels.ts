@@ -10,7 +10,7 @@ const useGetInfiniteAllHotels = () => {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      return lastPage.last ? undefined : lastPage.pageable.pageNumber++;
+      return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
     },
   });
 };
