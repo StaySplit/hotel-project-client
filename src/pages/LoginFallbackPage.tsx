@@ -36,9 +36,13 @@ const LoginFallbackPage = () => {
         await oAuthLogin(identifier as 'kakao' | 'google', code as string);
         setUserRole('ROLE_CUSTOMER');
         navigate('/');
-      } catch {
-        setUserRole(null);
-        setModal(true);
+      } catch (error) {
+        if (error === 'ADDITIONAL_INFO_REQUIRED') {
+          setUserRole(null);
+          setModal(true);
+        } else {
+          setError(true);
+        }
       }
     };
 
@@ -47,7 +51,7 @@ const LoginFallbackPage = () => {
 
   const handleSubmit = async (data: SocialRegisterType) => {
     try {
-      await SocialSignup(data, identifier as 'kakao' | 'google');
+      await SocialSignup(data);
 
       try {
         await oAuthLogin(identifier as 'kakao' | 'google', code as string);
@@ -59,7 +63,10 @@ const LoginFallbackPage = () => {
 
       navigate('/');
     } catch (error) {
-      return error as string;
+      if (error instanceof Error) {
+        return error.message;
+      }
+      return '알 수 없는 오류 발생';
     }
   };
 

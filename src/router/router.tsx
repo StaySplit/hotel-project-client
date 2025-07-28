@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
         children: [{ index: true, element: <SearchPage /> }],
       }, */
       {
-        path: '/login/oauth/:identifier',
+        path: '/oauth/:identifier',
         element: <LoginFallbackPage />,
       },
       {
