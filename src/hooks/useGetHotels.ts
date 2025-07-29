@@ -1,11 +1,11 @@
 import handleApiReqeust from '@/service/api/handleApiReqeust';
 import { getHotels } from '@/service/api/hotel';
-import type { IHotel } from '@/types/hotel/hotel.interface';
-import type { IPaginationResult } from '@/types/pageable/pagination-result.interface';
+import type { Hotel } from '@/types/hotel';
+import type { PaginationResult } from '@/types/pageable';
 import { useState } from 'react';
 
 const useGetHotels = ({ label, size, sort }: { label: string; size: number; sort: string }) => {
-  const [hotelList, setHotelList] = useState<IHotel[]>([]);
+  const [hotelList, setHotelList] = useState<Hotel[]>([]);
   const [page, setPage] = useState<number>(0);
   const [canUseTrigger, setCanUseTrigger] = useState<boolean>(true);
 
@@ -18,7 +18,7 @@ const useGetHotels = ({ label, size, sort }: { label: string; size: number; sort
     setCanUseTrigger(false);
 
     try {
-      const result = await handleApiReqeust<IPaginationResult<IHotel>>(handleGetHotels);
+      const result = await handleApiReqeust<PaginationResult<Hotel>>(handleGetHotels);
       if (!result?.content?.length) return false;
 
       const hotels = result?.content ?? [];
@@ -42,7 +42,7 @@ const useGetHotels = ({ label, size, sort }: { label: string; size: number; sort
     page,
     canUseTrigger,
   }: {
-    hotelList?: IHotel[];
+    hotelList?: Hotel[];
     page?: number;
     canUseTrigger?: boolean;
   }) => {
