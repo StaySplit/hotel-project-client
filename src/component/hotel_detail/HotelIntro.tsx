@@ -1,9 +1,9 @@
-import type { IHotelDetail } from '@/types/hotel/hotel-detail.interface';
 import halfStar from '@/assets/svg/harf-star-left.svg';
 import star from '@/assets/svg/star.svg';
+import type { HotelDetail } from '@/types/hotel';
 import getStarRating from '@/utils/rating/getStarRating';
 
-const HotelIntro = ({ hotelDetail }: { hotelDetail: IHotelDetail }) => {
+const HotelIntro = ({ hotelDetail }: { hotelDetail: HotelDetail }) => {
   console.log(hotelDetail);
   const [fullStars, hasHalfStar] = getStarRating(Number(hotelDetail.rating));
 
@@ -14,9 +14,7 @@ const HotelIntro = ({ hotelDetail }: { hotelDetail: IHotelDetail }) => {
       <div className="text-primary-500 flex justify-between">
         <div className="mb-2 text-lg font-bold">{hotelDetail.name}</div>
       </div>
-      <div className='text-gray-primary mb-4'>
-        {hotelDetail.address}
-      </div>
+      <div className="text-gray-primary mb-4">{hotelDetail.address}</div>
       <div className="mb-2 flex w-200 justify-center text-2xl text-black">
         {hotelDetail.description}
       </div>
@@ -29,7 +27,9 @@ const HotelIntro = ({ hotelDetail }: { hotelDetail: IHotelDetail }) => {
           {hasHalfStar ? <img className="h-8 w-8" src={halfStar} /> : null}
         </div>
         <div className="h-3/5 border-r border-gray-300" />
-        <div className="flex flex-1 justify-center text-2xl">{hotelDetail.reviewCount}개의 리뷰</div>
+        <div className="flex flex-1 justify-center text-2xl">
+          {hotelDetail.reviewCount}개의 리뷰
+        </div>
       </div>
     </div>
   );

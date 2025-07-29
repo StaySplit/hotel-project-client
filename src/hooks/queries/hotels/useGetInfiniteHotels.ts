@@ -1,4 +1,4 @@
-import getAllHotels from '@/service/api/hotel/getAllHotels';
+import { getAllHotels } from '@/service/api/hotel';
 import buildSearchQuery from '@/utils/buildSearchQuery';
 import { useInfiniteQuery } from '@tanstack/react-query';
 

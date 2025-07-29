@@ -1,4 +1,4 @@
-import type { IReview } from '@/types/review/review.interface';
+import type { IReview } from '@/types/review/review';
 import HotelReview from './HotelReview';
 
 const HotelReviews = ({ reviews }: { reviews: IReview[] }) => {

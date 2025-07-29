@@ -1,7 +1,7 @@
 import GeneralRegisterForm from '@/component/form/auth/GeneralRegisterForm';
 import type { GeneralRegisterType } from '@/schema/AuthSchema';
 import { GeneralSignup, login } from '@/service/api/auth';
-import type UserRole from '@/types/user/UserRole';
+import type { UserRole } from '@/types/user';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,15 +30,12 @@ const SignUpPage = () => {
 
       navigate('/login');
     } catch (error) {
-      if (error instanceof Error) {
-        return error.message;
-      }
-      return '알 수 없는 오류 발생';
+      return error as string;
     }
   };
 
   return (
-    <section className="mx-auto flex h-full w-full max-w-[500px] flex-col justify-between px-4 pb-4">
+    <section className="mx-auto flex h-full w-full max-w-[500px] flex-col justify-between px-4">
       <div>
         <h3 className="text-primary-500 text-lg font-bold">StaySplit에 오신 걸 환영합니다 !</h3>
         <p className="text-gray-600">가입 하기 전, 간단한 정보를 입력해주세요</p>

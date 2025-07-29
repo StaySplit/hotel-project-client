@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import HeartIcon from '../common/icons/HeartIcon';
 import { RatingStars } from '../card/RatingStars';
-import type { IHotel } from '@/types/hotel/hotel.interface';
+import type { Hotel } from '@/types/hotel';
 
 const HotelCard = ({
   hotel,
   handleChangeLike,
   handleHotelClick,
 }: {
-  hotel: IHotel;
+  hotel: Hotel;
   handleChangeLike: () => void;
   handleHotelClick: () => void;
 }) => {

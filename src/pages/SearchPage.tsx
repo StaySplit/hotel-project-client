@@ -3,7 +3,7 @@ import CardSkeleton from '@/component/ui/CardSkeleton';
 import hotelKeys from '@/hooks/queries/hotels/hotelKeys';
 import useObserver from '@/hooks/useObserver';
 import type { SearchTerm } from '@/layout/SearchLayout';
-import getSearchHotels from '@/service/api/hotel/getSearchHotels';
+import { getSearchHotels } from '@/service/api/hotel';
 import buildSearchQuery from '@/utils/buildSearchQuery';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
