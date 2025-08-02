@@ -18,6 +18,34 @@ pipeline {
             }
         }
 
+        stage('Environment Check') {
+            steps {
+                echo 'Checking environment...'
+                bat '''
+                    echo "=== Environment Information ==="
+                    node --version
+                    npm --version
+                    echo "Workspace: %WORKSPACE%"
+                    echo "NODE_ENV: %NODE_ENV%"
+                    echo "CI: %CI%"
+                    
+                    echo "=== Checking package files ==="
+                    if exist "package.json" (
+                        echo "package.json exists"
+                    ) else (
+                        echo "ERROR: package.json not found"
+                        exit 1
+                    )
+                    
+                    if exist "package-lock.json" (
+                        echo "package-lock.json exists"
+                    ) else (
+                        echo "WARNING: package-lock.json not found"
+                    )
+                '''
+            }
+        }
+        
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
@@ -25,6 +53,34 @@ pipeline {
                     node --version
                     npm --version
                     npm ci --prefer-offline --no-audit
+                    
+                    echo "=== Verifying Installation ==="
+                    if exist "node_modules" (
+                        echo "node_modules directory created successfully"
+                        npm list --depth=0
+                    ) else (
+                        echo "ERROR: node_modules directory not created"
+                        exit 1
+                    )
+                    
+                    echo "=== Checking key dependencies ==="
+                    if exist "node_modules\\.bin\\eslint.cmd" (
+                        echo "ESLint installed successfully"
+                    ) else (
+                        echo "WARNING: ESLint not found in node_modules"
+                    )
+                    
+                    if exist "node_modules\\.bin\\tsc.cmd" (
+                        echo "TypeScript installed successfully"
+                    ) else (
+                        echo "WARNING: TypeScript not found in node_modules"
+                    )
+                    
+                    if exist "node_modules\\.bin\\vite.cmd" (
+                        echo "Vite installed successfully"
+                    ) else (
+                        echo "WARNING: Vite not found in node_modules"
+                    )
                 '''
             }
         }
@@ -36,7 +92,26 @@ pipeline {
                     try {
                         bat 'npm run lint'
                     } catch (Exception e) {
-                        echo 'Lint failed, but continuing build...'
+                        echo "Lint failed: ${e.getMessage()}"
+                        echo 'Continuing build despite lint errors...'
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+        }
+
+        stage('TypeScript Check') {
+            steps {
+                echo 'Running TypeScript type check...'
+                script {
+                    try {
+                        bat '''
+                            echo "=== TypeScript Type Check ==="
+                            npx tsc --noEmit
+                        '''
+                    } catch (Exception e) {
+                        echo "TypeScript check failed: ${e.getMessage()}"
+                        echo 'Continuing build despite TypeScript errors...'
                         currentBuild.result = 'UNSTABLE'
                     }
                 }
