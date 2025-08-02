@@ -2,12 +2,10 @@
 
 import { useEffect } from 'react';
 
-import type UserStatus from '@/types/user/UserStatus';
-
 import useAuthStore from '@/store/useAuthStore';
-
 import handleApiReqeust from '@/service/api/handleApiReqeust';
 import client from '@/service/instance/client';
+import type { UserStatus } from '@/types/user';
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { setUserRole } = useAuthStore();

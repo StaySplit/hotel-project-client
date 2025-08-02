@@ -1,7 +1,7 @@
-import type { IReview } from '@/types/review/review';
+import type { Review } from '@/types/review/review';
 import HotelReview from './HotelReview';
 
-const HotelReviews = ({ reviews }: { reviews: IReview[] }) => {
+const HotelReviews = ({ reviews }: { reviews: Review[] }) => {
   if (!reviews.length) {
     return null;
   }

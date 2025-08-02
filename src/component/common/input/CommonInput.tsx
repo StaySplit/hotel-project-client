@@ -31,7 +31,7 @@ const CommonInput = ({
         name={name}
         onChange={onChange}
         value={value}
-        className={`focus:border-primary-300 w-full rounded-xl border px-4 py-2 text-black transition-colors outline-none ${error ? 'border-[#e57373]' : 'border-gray-primary'}`}
+        className={`focus:border-primary-300 w-full rounded-xl border px-4 py-2 text-black transition-colors outline-none ${error ? 'border-[#e57373]' : 'border-gray-primary'} ${rest.disabled ? 'cursor-not-allowed bg-gray-100 text-gray-400' : ''}`}
         {...rest}
       />
 

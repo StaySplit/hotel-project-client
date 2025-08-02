@@ -13,3 +13,8 @@ export interface UserStatus {
   role: UserRole;
   loggedIn: boolean;
 }
+
+export interface WarnResponse {
+  code: string;
+  data: string;
+}

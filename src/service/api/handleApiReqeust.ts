@@ -20,6 +20,7 @@ const handleApiReqeust = async <T>(
 ): Promise<T> => {
   try {
     const response = await fetchApi();
+    //FIXME: 개발 완료 후 console 삭제
     console.log(response);
     if (response.data.resultCode === 'SUCCESS') {
       return response.data.result;

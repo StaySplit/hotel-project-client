@@ -2,8 +2,7 @@ import client from '@/service/instance/client';
 
 import handleApiReqeust from './handleApiReqeust';
 
-import type UserInfo from '@/types/user/UserInfo';
-import type UserRole from '@/types/user/UserRole';
+import type { UserRole, UserInfo, WarnResponse } from '@/types/user';
 import type { GeneralRegisterType, LoginType, SocialRegisterType } from '@/schema/AuthSchema';
 
 type oAuthIdentity = 'kakao' | 'google';
@@ -22,10 +21,10 @@ export const GeneralSignup = async (role: UserRole, data: GeneralRegisterType) =
   return response;
 };
 
-export const SocialSignup = async (data: SocialRegisterType) => {
+export const SocialSignup = async (data: SocialRegisterType, accountType: string) => {
   //FIXME: 서버의 getGoolgleProfile에서 유저 정보 가져오면 수정되어야함.
   const response = await handleApiReqeust<UserInfo>(() =>
-    client.post('/api/customers/oauth/signup', { ...data, socialId: data.email }),
+    client.post('/api/customers/oauth/signup', { ...data, accountType: accountType }),
   );
 
   return response;
@@ -37,8 +36,12 @@ export const login = async (data: LoginType) => {
   return response;
 };
 
+export const logout = async () => {
+  await handleApiReqeust<UserRole>(() => client.post('/api/users/logout'));
+};
+
 export const oAuthLogin = async (identifier: oAuthIdentity, code: string) => {
-  const response = await handleApiReqeust(() =>
+  const response = await handleApiReqeust<WarnResponse>(() =>
     client.post(`/api/customers/${identifier}/login`, { code }),
   );
 
