@@ -5,7 +5,7 @@ import useAuthStore from '@/store/useAuthStore';
 
 import { ArrowLeft } from 'lucide-react';
 
-import { login } from '@/service/api/auth';
+import { login, logout } from '@/service/api/auth';
 import type { LoginType } from '@/schema/AuthSchema';
 
 import Logo from '@/assets/svg/Logo.svg';
@@ -22,6 +22,11 @@ const Header = () => {
   const [formError, setFormError] = useState<string>();
 
   const location = useLocation();
+
+  const handleLogout = async () => {
+    await logout();
+    setUserRole(null);
+  };
 
   useEffect(() => {
     setModal(false);
@@ -51,7 +56,7 @@ const Header = () => {
           </Link>
         </h1>
         <nav className="flex gap-2">
-          {role === null && (
+          {role === null ? (
             <>
               <Link
                 to="/sign-up"
@@ -63,6 +68,8 @@ const Header = () => {
                 로그인
               </PrimaryButton>
             </>
+          ) : (
+            <PrimaryButton onClick={handleLogout}>로그아웃</PrimaryButton>
           )}
         </nav>
       </header>

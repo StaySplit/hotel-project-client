@@ -11,6 +11,7 @@ export const LoginSchema = z.object({
 
 // 회원가입 베이스 스케마
 const RegisterBaseSchema = z.object({
+  socialId: z.string().optional(),
   email: z
     .string({ message: '이메일은 필수 입력입니다.' })
     .email({ message: '잘못된 이메일 형식입니다.' }),

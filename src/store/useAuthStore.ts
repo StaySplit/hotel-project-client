@@ -1,4 +1,4 @@
-import type UserRole from '@/types/user/UserRole';
+import type { UserRole } from '@/types/user';
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -12,8 +12,12 @@ const useAuthStore = create<useAuthInterface>()(
   persist(
     (set) => ({
       role: null,
-      setUserRole: (role) => set((state) => ({ role: (state.role = role) })),
-      removeUserRole: () => set({ role: null }),
+      setUserRole: (role) => {
+        set({ role });
+      },
+      removeUserRole: () => {
+        set({ role: null });
+      },
     }),
     {
       name: 'user-role',

@@ -33,12 +33,18 @@ const SocialRegisterFields = [
 
 interface SocialRegisterFormProps {
   onSubmit: (data: SocialRegisterType) => Promise<string | void>;
+  defaultValues?: Partial<SocialRegisterType>;
 }
 
-const SocialRegisterForm = ({ onSubmit }: SocialRegisterFormProps) => {
+const SocialRegisterForm = ({ onSubmit, defaultValues }: SocialRegisterFormProps) => {
   const { control, handleSubmit, formState, setError } = useForm({
     resolver: zodResolver(SocialRegisterSchema),
     mode: 'onSubmit',
+    defaultValues: {
+      name: defaultValues?.name || '',
+      email: defaultValues?.email || '',
+      socialId: defaultValues?.socialId || '',
+    },
   });
 
   const { field: birthField, fieldState } = useController({ name: 'birthdate', control });
@@ -81,7 +87,12 @@ const SocialRegisterForm = ({ onSubmit }: SocialRegisterFormProps) => {
             })()
           ) : (
             <div key={field.name}>
-              <RHFInput {...field} placeholder={field.placeholder} control={control} />
+              <RHFInput
+                {...field}
+                placeholder={field.placeholder}
+                control={control}
+                disabled={['name', 'email'].includes(field.name) && !!defaultValues?.[field.name]}
+              />
             </div>
           ),
         )}

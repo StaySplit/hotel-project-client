@@ -12,16 +12,31 @@ import Modal from '@/component/modal/Modal';
 import ModalHeader from '@/component/modal/ModalHeader';
 import ModalWrapper from '@/component/modal/ModalWrapper';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
+import type { UserRole } from '@/types/user';
 
 const LoginFallbackPage = () => {
   const [error, setError] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
+  const [defaultValues, setDefaultValues] = useState<Partial<SocialRegisterType>>({});
   const { identifier } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setUserRole } = useAuthStore();
 
   const code = searchParams.get('code');
+  const googleAuth = () => {
+    const authPath = import.meta.env.VITE_GOOGLE_AUTH_URL;
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
+    const scope = 'openid email profile';
+    const state = 'google';
+
+    const authUrl = `${authPath}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(
+      scope,
+    )}&state=${state}`;
+
+    window.location.href = authUrl;
+  };
 
   useEffect(() => {
     if (!code || !identifier) {
@@ -33,16 +48,21 @@ const LoginFallbackPage = () => {
   useEffect(() => {
     const handleoAuthLogin = async () => {
       try {
-        await oAuthLogin(identifier as 'kakao' | 'google', code as string);
-        setUserRole('ROLE_CUSTOMER');
-        navigate('/');
-      } catch (error) {
-        if (error === 'ADDITIONAL_INFO_REQUIRED') {
+        const res = await oAuthLogin(identifier as 'kakao' | 'google', code as string);
+        if (res.code === 'ADDITIONAL_INFO_REQUIRED') {
+          const data = res.data;
+          const socialId = data.match(/socialId:(\d+)/)?.[1]?.trim() || '';
+          const email = data.match(/email:\s*([^,]+)/)?.[1].trim() || '';
+          const name = data.match(/name:\s*(.+)$/)?.[1].trim() || '';
+          setDefaultValues({ email, name, socialId });
           setUserRole(null);
           setModal(true);
         } else {
-          setError(true);
+          setUserRole(res.data as UserRole);
+          navigate('/');
         }
+      } catch (error) {
+        setError(true);
       }
     };
 
@@ -51,20 +71,22 @@ const LoginFallbackPage = () => {
 
   const handleSubmit = async (data: SocialRegisterType) => {
     try {
-      await SocialSignup(data);
-
-      try {
-        await oAuthLogin(identifier as 'kakao' | 'google', code as string);
-        setUserRole('ROLE_CUSTOMER');
-        return navigate('/');
-      } catch {
-        navigate('/');
-      }
-
-      navigate('/');
+      // 1. 소셜 회원가입
+      await SocialSignup(data, identifier as 'kakao' | 'google');
     } catch (error) {
+      setUserRole(null);
       return error as string;
     }
+    try {
+      //2.구글auth는 code값 재사용 불가로 가입 후, 한번 더 인증해야 함.
+      //oAuthLogin은 useEffect에서만 수행
+      if (identifier === 'google') {
+        googleAuth();
+        return;
+      }
+    } catch {}
+    //3. 성공/실패와 무관하게 항상 이동
+    navigate('/');
   };
 
   return (
@@ -91,7 +113,7 @@ const LoginFallbackPage = () => {
             />
 
             <div className="flex-1 py-4">
-              <SignupForm onSubmit={handleSubmit} />
+              <SignupForm onSubmit={handleSubmit} defaultValues={defaultValues} />
             </div>
 
             <PrimaryButton size="md" type="submit" form="sign-up-social" full>
