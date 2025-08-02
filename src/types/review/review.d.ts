@@ -1,4 +1,4 @@
-export interface IReview {
+export interface Review {
   reviewId: number;
   customerId: number;
   hotelId: number;

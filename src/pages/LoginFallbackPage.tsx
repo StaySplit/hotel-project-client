@@ -63,10 +63,7 @@ const LoginFallbackPage = () => {
 
       navigate('/');
     } catch (error) {
-      if (error instanceof Error) {
-        return error.message;
-      }
-      return '알 수 없는 오류 발생';
+      return error as string;
     }
   };
 

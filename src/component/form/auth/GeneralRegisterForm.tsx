@@ -67,37 +67,35 @@ const GeneralRegisterForm = ({ onSubmit }: GeneralRegisterFormProps) => {
   return (
     <>
       {formState.errors && formState.errors.root?.message && (
-        <p className="text-error pt-2 text-sm">{formState.errors.root.message}</p>
+        <p className="text-error py-2 text-sm">{formState.errors.root.message}</p>
       )}
-      <form
-        id="sign-up"
-        className="mb-4 space-y-2 py-2"
-        onSubmit={handleSubmit(handleSubmitRegister)}
-      >
-        {GeneralRegisterFields.map((field) =>
-          field.name === 'birthdate' ? (
-            (() => {
-              return (
-                <div key="birthdate">
-                  <CommonInput
-                    {...birthField}
-                    value={birthField.value ?? ''}
-                    label={field.label}
-                    maxLength={10}
-                    placeholder={field.placeholder}
-                    onChange={(e) => birthField.onChange(formatBirthDate(e.target.value))}
-                    error={!!fieldState.error}
-                    errorMessage={fieldState.error?.message}
-                  />
-                </div>
-              );
-            })()
-          ) : (
-            <div key={field.name}>
-              <RHFInput {...field} placeholder={field.placeholder} control={control} />
-            </div>
-          ),
-        )}
+      <form id="sign-up" className="space-y-4" onSubmit={handleSubmit(handleSubmitRegister)}>
+        <div className="mb-4 space-y-2">
+          {GeneralRegisterFields.map((field) =>
+            field.name === 'birthdate' ? (
+              (() => {
+                return (
+                  <div key="birthdate">
+                    <CommonInput
+                      {...birthField}
+                      value={birthField.value ?? ''}
+                      label={field.label}
+                      maxLength={10}
+                      placeholder={field.placeholder}
+                      onChange={(e) => birthField.onChange(formatBirthDate(e.target.value))}
+                      error={!!fieldState.error}
+                      errorMessage={fieldState.error?.message}
+                    />
+                  </div>
+                );
+              })()
+            ) : (
+              <div key={field.name}>
+                <RHFInput {...field} placeholder={field.placeholder} control={control} />
+              </div>
+            ),
+          )}
+        </div>
         <PrimaryButton form="sign-up" full>
           가입하기
         </PrimaryButton>

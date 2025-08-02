@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import HotelIntro from './HotelIntro';
 import { useParams } from 'react-router-dom';
-import type { IHotelDetail } from '@/types/hotel/hotel-detail.interface';
 import { getHotelDetail } from '@/service/api/hotel';
 import handleApiReqeust from '@/service/api/handleApiReqeust';
-import type { IReview } from '@/types/review/review.interface';
+import type { IReview } from '@/types/review/review';
 import HotelReviews from './HotelReviews';
 import HotelRooms from './HotelRooms';
-import type { IRoom } from '@/types/room/room.interface';
+import type { IRoom } from '@/types/room/room';
 import HotelMapView from './HotelMapView';
+import type { HotelDetail } from '@/types/hotel';
 
 const reviews: IReview[] = [
   {
@@ -65,14 +65,14 @@ const HotelDetailPage = () => {
   const params = useParams();
   const { hotelId } = params;
 
-  const [hotelDetail, setHotelDetail] = useState<IHotelDetail>();
+  const [hotelDetail, setHotelDetail] = useState<HotelDetail>();
 
   const handleGetHotelDetail = async () => {
     return await getHotelDetail(Number(hotelId));
   };
 
   useEffect(() => {
-    handleApiReqeust<IHotelDetail>(handleGetHotelDetail).then((data) => {
+    handleApiReqeust<HotelDetail>(handleGetHotelDetail).then((data) => {
       setHotelDetail(data);
       console.log(data);
     });

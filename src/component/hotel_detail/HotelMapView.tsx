@@ -2,7 +2,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import type { IHotelDetail } from '@/types/hotel/hotel-detail.interface';
+import type { HotelDetail } from '@/types/hotel';
 
 // 안전하게 아이콘 설정
 const defaultIcon = new L.Icon({
@@ -16,21 +16,23 @@ const defaultIcon = new L.Icon({
 });
 L.Marker.prototype.options.icon = defaultIcon;
 
-export default function HotelMapView({hotelDetail} : {hotelDetail: IHotelDetail}) {
+export default function HotelMapView({ hotelDetail }: { hotelDetail: HotelDetail }) {
   return (
-    <div className='flex flex-col w-full'>
-      <div className='text-primary-500 text-2xl mb-2'>
-        위치
-      </div>
-    <MapContainer center={[37.5665, 126.9780]} zoom={18} style={{ height: '400px', width: '100%' }}>
-      <TileLayer
-        attribution='&copy; OpenStreetMap contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      />
-      <Marker position={[37.5665, 126.9780]}>
-        <Popup>{hotelDetail.name}</Popup>
-      </Marker>
-    </MapContainer>
+    <div className="flex w-full flex-col">
+      <div className="text-primary-500 mb-2 text-2xl">위치</div>
+      <MapContainer
+        center={[37.5665, 126.978]}
+        zoom={18}
+        style={{ height: '400px', width: '100%' }}
+      >
+        <TileLayer
+          attribution="&copy; OpenStreetMap contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[37.5665, 126.978]}>
+          <Popup>{hotelDetail.name}</Popup>
+        </Marker>
+      </MapContainer>
     </div>
   );
 }

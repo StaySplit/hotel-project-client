@@ -1,7 +1,7 @@
-import type { IRoom } from '@/types/room/room.interface';
+import type { Room } from '@/types/room/room';
 import HotelRoom from './HotelRoom';
 
-const HotelRooms = ({ rooms }: { rooms: IRoom[] }) => {
+const HotelRooms = ({ rooms }: { rooms: Room[] }) => {
   return (
     <div className="flex flex-col gap-8">
       {rooms.length &&

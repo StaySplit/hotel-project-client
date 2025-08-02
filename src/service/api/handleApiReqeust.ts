@@ -30,15 +30,17 @@ const handleApiReqeust = async <T>(
   } catch (error) {
     console.log('handlReqeustError', error);
     if (axios.isAxiosError<Response<T>>(error)) {
-      if (error.status === 500) {
-        // 500 -> 서버에러
-        throw '서버에서 오류가 발생했습니다.';
-      }
-
       if (error.response && error.response.data.resultCode === 'ERROR') {
         // 요청 에러
         throw error.response.data.result || '요청을 정상적으로 처리하지 못했습니다.';
       }
+
+      if (error.status === 500 || error.status === 403) {
+        // 500 -> 서버에러
+        throw '서버에서 오류가 발생했습니다.';
+      }
+
+      throw error.response?.data.result;
     }
 
     // 기타 에러

@@ -1,9 +1,12 @@
 import RadioInput from '@/component/common/input/RadioInput';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import HotelCard from '@/component/card/HotelCard';
+import SearchForm from '@/component/form/SearchForm';
+
+import useGetInfiniteAllHotels from '@/hooks/queries/hotels/useGetInfiniteHotels';
+import CardSkeleton from '@/component/ui/CardSkeleton';
+import useObserver from '@/hooks/useObserver';
 
 const CategoryGroup = [
   {
@@ -20,20 +23,27 @@ const HomePage = () => {
   const [radio, setRadio] = useState('seoul');
   const [like, setLike] = useState(false);
 
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetching } = useGetInfiniteAllHotels();
+  const { ref, isView } = useObserver();
+
+  useEffect(() => {
+    if (isView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [isView, fetchNextPage, hasNextPage]);
+
   return (
     <section className="w-full px-4">
       {/* Banner */}
-      <div className="relative mb-4 flex h-[250px] w-full flex-col items-center justify-center rounded-2xl bg-[url('/main-banner.png')] bg-cover bg-center bg-no-repeat text-white md:h-[300px]">
-        <p className="font-bold md:text-2xl">당신의 여행을 더 스마트하게,</p>
-        <p className="text-sm md:text-lg">가장 합리적인 호텔 예약, StaySplit</p>
 
-        <Link
-          to="/"
-          className="bg-primary-700 absolute bottom-6 flex items-center justify-center gap-2 rounded-full px-8 py-1.5 text-sm text-white"
-        >
-          <span>숙소 찾으러 가기</span>
-          <ArrowRight strokeWidth={1} size="20" />
-        </Link>
+      <div className="relative">
+        <div className="relative mb-20 hidden h-[250px] w-full flex-col items-center justify-center rounded-2xl bg-[url('/main-banner.png')] bg-cover bg-center bg-no-repeat text-white md:flex md:h-[300px]">
+          <p className="font-bold md:text-2xl">당신의 여행을 더 스마트하게,</p>
+          <p className="text-sm md:text-lg">가장 합리적인 호텔 예약, StaySplit</p>
+        </div>
+        <div className="mx-auto w-full md:absolute md:top-[82%] md:left-1/2 md:max-w-[1200px] md:-translate-x-1/2 md:px-8">
+          <SearchForm />
+        </div>
       </div>
 
       <div className="w-full">
@@ -54,16 +64,23 @@ const HomePage = () => {
             </li>
           ))}
         </ul>
-
         <ul className="flex flex-col gap-4 lg:grid lg:grid-cols-5">
-          {Array(8)
-            .fill(5)
-            .map((idx) => (
-              <li key={idx} className="w-full">
-                <HotelCard liked={like} handleChangeLike={() => setLike((prev) => !prev)} />
-              </li>
-            ))}
+          {!isLoading &&
+            data?.pages
+              .flatMap((el) => el.content)
+              .map((hotel) => (
+                <li key={hotel.hotelId} className="w-full">
+                  <HotelCard
+                    {...hotel}
+                    liked={like}
+                    handleChangeLike={() => setLike((prev) => !prev)}
+                  />
+                </li>
+              ))}
+          {isFetching && <CardSkeleton />}
         </ul>
+        {/* Observer */}
+        <div className="min-h-[1px] w-full" ref={ref} />
       </div>
     </section>
   );

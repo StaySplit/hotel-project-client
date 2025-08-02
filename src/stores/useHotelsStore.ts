@@ -1,15 +1,15 @@
-import type { IHotel } from '@/types/hotel/hotel.interface';
+import type { Hotel } from '@/types/hotel';
 import { create } from 'zustand';
 
 interface HotelState {
-  hotelList: IHotel[];
+  hotelList: Hotel[];
   page: number;
   canUseTrigger: boolean;
   scrollY: number;
   label: string;
 
   setHotelState: (state: {
-    hotelList?: IHotel[];
+    hotelList?: Hotel[];
     page?: number;
     canUseTrigger?: boolean;
     scrollY?: number;
