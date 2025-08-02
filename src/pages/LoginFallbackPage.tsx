@@ -61,7 +61,7 @@ const LoginFallbackPage = () => {
           setUserRole(res.data as UserRole);
           navigate('/');
         }
-      } catch (error) {
+      } catch (_error) {
         setError(true);
       }
     };
@@ -84,7 +84,10 @@ const LoginFallbackPage = () => {
         googleAuth();
         return;
       }
-    } catch {}
+    } catch {
+      //2-1. 회원가입 후 로그인(구글인증)에서 오류나는경우
+      //FIXME:에러페이지 구현 후 추가 필수
+    }
     //3. 성공/실패와 무관하게 항상 이동
     navigate('/');
   };
