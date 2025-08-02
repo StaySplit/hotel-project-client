@@ -45,19 +45,27 @@ pipeline {
                 '''
             }
         }
+
+        stage('Clean Cache') {
+            steps {
+                echo 'Cleaning npm cache...'
+                bat '''
+                    if exist "node_modules" rmdir /s /q node_modules
+                    if exist "package-lock.json" del package-lock.json
+                    npm cache clean --force
+                '''
+            }
+        }
         
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
                 bat '''
-                    node --version
-                    npm --version
-                    npm ci --prefer-offline --no-audit
-                    
+                    npm install
                     echo "=== Verifying Installation ==="
+                    npm list --depth=0
                     if exist "node_modules" (
                         echo "node_modules directory created successfully"
-                        npm list --depth=0
                     ) else (
                         echo "ERROR: node_modules directory not created"
                         exit 1
