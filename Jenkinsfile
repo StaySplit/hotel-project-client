@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-       REACT_APP_API_URL = "https://api.example.com"
+       REACT_APP_API_URL = "${env.REACT_APP_API_URL}"
         CI = "true"
         NODE_ENV = "production"
     }
