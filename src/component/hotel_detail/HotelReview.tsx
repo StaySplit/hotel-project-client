@@ -1,9 +1,9 @@
 import halfStar from '@/assets/svg/harf-star-left.svg';
 import star from '@/assets/svg/star.svg';
-import type { IReview } from '@/types/review/review';
+import type { Review } from '@/types/review/review';
 import getStarRating from '@/utils/rating/getStarRating';
 
-const HotelReview = ({ review }: { review: IReview }) => {
+const HotelReview = ({ review }: { review: Review }) => {
   const [fullStars, hasHalfStar] = getStarRating(Number(review.rating));
   console.log(fullStars);
 

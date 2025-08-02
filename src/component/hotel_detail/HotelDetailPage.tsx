@@ -3,14 +3,14 @@ import HotelIntro from './HotelIntro';
 import { useParams } from 'react-router-dom';
 import { getHotelDetail } from '@/service/api/hotel';
 import handleApiReqeust from '@/service/api/handleApiReqeust';
-import type { IReview } from '@/types/review/review';
 import HotelReviews from './HotelReviews';
 import HotelRooms from './HotelRooms';
-import type { IRoom } from '@/types/room/room';
 import HotelMapView from './HotelMapView';
 import type { HotelDetail } from '@/types/hotel';
+import type { Review } from '@/types/review/review';
+import type { Room } from '@/types/room/room';
 
-const reviews: IReview[] = [
+const reviews: Review[] = [
   {
     reviewId: 1,
     customerId: 101,
@@ -37,7 +37,7 @@ const reviews: IReview[] = [
   },
 ];
 
-const rooms: IRoom[] = [
+const rooms: Room[] = [
   {
     hotelId: 1,
     hotelName: '서울 프리미엄 호텔',
