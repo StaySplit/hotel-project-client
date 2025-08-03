@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import useAuthStore from '@/store/useAuthStore';
 
 import { ArrowLeft } from 'lucide-react';
 
-import { login, logout } from '@/service/api/auth';
+import { login } from '@/service/api/auth';
 import type { LoginType } from '@/schema/AuthSchema';
 
 import Logo from '@/assets/svg/Logo.svg';
@@ -14,19 +14,16 @@ import SymbolLogo from '/union.svg';
 import Modal from '@/component/modal/Modal';
 import LoginForm from '@/component/form/auth/LoginForm';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
+import HeaderProfile from '@/layout/HeaderProfile';
 
 const Header = () => {
-  const { setUserRole, role } = useAuthStore();
+  const { setUserRole, role, setUserNickName } = useAuthStore();
 
   const [modal, setModal] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>();
 
   const location = useLocation();
-
-  const handleLogout = async () => {
-    await logout();
-    setUserRole(null);
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     setModal(false);
@@ -39,8 +36,10 @@ const Header = () => {
   const onSubmit = async (data: LoginType) => {
     try {
       const response = await login(data);
-      setUserRole(response);
+      setUserRole(response.role);
+      setUserNickName(response.nickName);
       setModal(false);
+      navigate('/');
     } catch (err) {
       setFormError(err as string);
     }
@@ -55,7 +54,7 @@ const Header = () => {
             <img src={SymbolLogo} className="size-12 md:hidden" alt="stay split logo" />
           </Link>
         </h1>
-        <nav className="flex gap-2">
+        <nav className="flex items-center gap-2">
           {role === null ? (
             <>
               <Link
@@ -69,7 +68,7 @@ const Header = () => {
               </PrimaryButton>
             </>
           ) : (
-            <PrimaryButton onClick={handleLogout}>로그아웃</PrimaryButton>
+            <HeaderProfile />
           )}
         </nav>
       </header>

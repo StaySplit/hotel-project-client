@@ -6,10 +6,11 @@ import useAuthStore from '@/store/useAuthStore';
 import handleApiReqeust from '@/service/api/handleApiReqeust';
 import client from '@/service/instance/client';
 import type { UserStatus } from '@/types/user';
+import { useLocation } from 'react-router-dom';
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { setUserRole } = useAuthStore();
-
+  const { setUserRole, setUserNickName, role } = useAuthStore();
+  const location = useLocation();
   // 로그인 상태 Check
   const handleCheckLoggedIn = async () => {
     try {
@@ -17,14 +18,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         client.get('/api/users/auth/status'),
       );
       setUserRole(response.role);
+      setUserNickName(response.nickName);
     } catch {
       setUserRole(null);
+      setUserNickName('');
     }
   };
 
   useEffect(() => {
     handleCheckLoggedIn();
-  }, []);
+  }, [location.pathname, role]);
 
   return <>{children}</>;
 };

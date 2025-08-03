@@ -6,6 +6,10 @@ interface useAuthInterface {
   role: UserRole;
   setUserRole: (role: UserRole) => void;
   removeUserRole: () => void;
+  nickName: string | null;
+  setUserNickName: (email: string) => void;
+  removeUserNickName: () => void;
+  setLogout: () => void;
 }
 
 const useAuthStore = create<useAuthInterface>()(
@@ -18,9 +22,15 @@ const useAuthStore = create<useAuthInterface>()(
       removeUserRole: () => {
         set({ role: null });
       },
+      nickName: null,
+      setUserNickName: (nickName) => set({ nickName }),
+      removeUserNickName: () => set({ nickName: null }),
+      setLogout: () => {
+        set({ role: null, nickName: null });
+      },
     }),
     {
-      name: 'user-role',
+      name: 'user-info',
       storage: createJSONStorage(() => localStorage),
     },
   ),
