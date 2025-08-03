@@ -8,7 +8,8 @@ pipeline {
     environment {
        REACT_APP_API_URL = "${env.REACT_APP_API_URL}"
         CI = "true"
-        NODE_ENV = "production"
+        NODE_ENV = 'development'
+        NPM_CONFIG_PRODUCTION = 'false'
     }
 
     stages {
