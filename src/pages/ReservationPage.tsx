@@ -5,7 +5,7 @@ import BookingCard from '@/component/mypage/booking/BookingCard';
 import { getReservationInfo } from '@/service/api/reservation';
 import { useReservationStore } from '@/stores/useReservationStore';
 
-const PaymentPage = () => {
+const ReservationPage = () => {
   const { reservations, setReservations } = useReservationStore();
   const [activeTab, setActiveTab] = useState('전체');
 
@@ -41,7 +41,7 @@ const PaymentPage = () => {
     <>
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h1 className="text-3xl font-bold text-gray-800">결제 내역</h1>
+          <h1 className="text-3xl font-bold text-gray-800">예약 내역</h1>
         </div>
         <div className="flex items-center space-x-4">
           <span className="text-gray-600">예약을 찾을 수 없으신가요?</span>
@@ -60,4 +60,4 @@ const PaymentPage = () => {
   );
 };
 
-export default PaymentPage;
+export default ReservationPage;

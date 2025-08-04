@@ -3,14 +3,15 @@ import { User, Hotel } from 'lucide-react';
 import Card from '@/component/common/card/Card';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
 import type {
-  BookingCardProps,
+  ReservationCardProps,
   BookingStatusProps,
   DateDisplayProps,
   GuestInfoProps,
   HotelImageProps,
   RoomInfoProps,
   BookingStatus,
-} from '@/types/booking';
+} from '@/types/ReservationType';
+import { formatNumberToWon } from '@/utils/format/formatUtil';
 
 // 예약 상태 표시 컴포넌트
 const BookingStatus = memo(({ status }: BookingStatusProps) => {
@@ -79,25 +80,10 @@ const HotelImage = memo(({ image, hotelName }: HotelImageProps) => (
 HotelImage.displayName = 'HotelImage';
 
 // 메인 예약 카드 컴포넌트
-const BookingCard = memo(({ booking, onDelete }: BookingCardProps) => {
-  const {
-    id,
-    bookingNumber,
-    bookingDate,
-    city,
-    hotelName,
-    roomId,
-    userName,
-    myPrice,
-    quantity,
-    nights,
-    image,
-    info,
-  } = booking;
-
+const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
   const handleDelete = () => {
     if (onDelete) {
-      onDelete(id);
+      onDelete(booking.reservationId);
     }
   };
 
@@ -107,53 +93,59 @@ const BookingCard = memo(({ booking, onDelete }: BookingCardProps) => {
       <Card.Header className="mb-4 flex items-start justify-between">
         <div className="flex items-center space-x-3">
           <Hotel className="h-5 w-5 text-gray-400" />
-          <span className="text-gray-600">예약번호: {bookingNumber}</span>
-          <span className="text-gray-600">예약날짜: {bookingDate}</span>
+          <span className="text-gray-600">예약번호: {booking.reservationNumber}</span>
+          <span className="text-gray-600">예약날짜: {booking.createdAt}</span>
         </div>
-        <BookingStatus status={info.status} />
+        <BookingStatus status={booking.reservationStatus} />
       </Card.Header>
 
       {/* 카드 컨텐츠 */}
       <Card.Content className="text-right">
         {/* 가격 정보 */}
-        <div className="text-lg font-bold text-gray-800">결제 금액: {myPrice}</div>
-        <div className="text-xs text-gray-700">총 금액: {info.totalPrice}</div>
+        <div className="text-lg font-bold text-gray-800">
+          결제 금액: {formatNumberToWon(booking.pricePaid)}
+        </div>
+        <div className="text-xs text-gray-700">
+          총 금액: {formatNumberToWon(booking.totalPrice)}
+        </div>
         {/* 예약 상세 정보 */}
         <div className="flex items-center space-x-6">
           {/* 호텔 이미지 */}
-          <HotelImage image={image} hotelName={hotelName} />
+          <HotelImage image={booking.hotelPhotos[0]} hotelName={booking.hotelName} />
 
           {/* 예약 정보 */}
           <div className="flex-1">
             <div className="mb-4 flex items-center space-x-4">
               <h3 className="text-l font-semibold text-gray-800">
-                {city} → {hotelName} ({info.roomType})
+                {booking.hotelAddress} → {booking.hotelName} ({booking.rooms[0].roomType})
               </h3>
             </div>
 
             <div className="flex items-center space-x-8">
               {/* 체크인 날짜 */}
-              <DateDisplay date={info.checkInDate} time={info.time} />
+              <DateDisplay date={booking.checkInDate} time={booking.hotelCheckInTime} />
 
               {/* 숙박 기간 표시 */}
               <div className="flex flex-1 items-center justify-center">
                 <div className="relative h-px w-20 bg-gray-300">
                   <Hotel className="absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform text-gray-400" />
-                  <div className="pt-2 text-center text-sm text-gray-500">{nights}박 일정</div>
+                  <div className="pt-2 text-center text-sm text-gray-500">
+                    {booking.rooms[0].nights}박 일정
+                  </div>
                 </div>
               </div>
 
               {/* 체크아웃 날짜 */}
-              <DateDisplay date={info.checkOutDate} time={info.time} />
+              <DateDisplay date={booking.checkOutDate} time={booking.hotelCheckOutTime} />
 
               {/* 객실 정보 */}
-              <RoomInfo roomId={roomId} roomType={info.roomType} />
+              <RoomInfo roomId={booking.rooms[0].roomId} roomType={booking.rooms[0].roomType} />
 
               {/* 투숙객 정보 */}
               <GuestInfo
-                userName={userName}
-                quantity={quantity}
-                maxOccupancy={info.max_occupancy}
+                userName={booking.userName}
+                quantity={booking.totalParticipant}
+                maxOccupancy={booking.rooms[0].maxOccupancy}
               />
             </div>
           </div>
@@ -162,7 +154,7 @@ const BookingCard = memo(({ booking, onDelete }: BookingCardProps) => {
         {/* 추가 서비스 정보 */}
         <div className="mt-4 border-t border-gray-200 pt-4 text-left">
           <div className="text-sm text-gray-600">
-            객실정보 : 부가 서비스 (유료) / 포함 서비스: {info.description}
+            객실정보 : 부가 서비스 (유료) / 포함 서비스: {booking.rooms[0].roomDescription}
           </div>
         </div>
       </Card.Content>
@@ -177,6 +169,6 @@ const BookingCard = memo(({ booking, onDelete }: BookingCardProps) => {
   );
 });
 
-BookingCard.displayName = 'BookingCard';
+ReservationCard.displayName = 'BookingCard';
 
-export default BookingCard;
+export default ReservationCard;

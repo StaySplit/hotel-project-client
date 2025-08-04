@@ -15,7 +15,7 @@ import PaymentPage from '@/pages/PaymentPage';
 import MyPage from '@/pages/MyPage';
 import ErrorPage from '@/pages/ErrorPage';
 import ProtectedRoute from './ProtectedRouter';
-import BookingPage from '@/pages/BookingPage';
+import ReservationPage from '@/pages/ReservationPage';
 
 export const router = createBrowserRouter([
   {
@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
             path: 'bookings',
             element: (
               <ProtectedRoute>
-                <BookingPage />
+                <ReservationPage />
               </ProtectedRoute>
             ),
           },
