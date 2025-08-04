@@ -13,7 +13,7 @@ import SearchLabel from '../common/label/SearchLabel';
 import Modal from '../modal/Modal';
 import ModalWrapper from '../modal/ModalWrapper';
 import ModalHeader from '../modal/ModalHeader';
-import formatDateToISOstring from '@/utils/format/formatDateToISOString';
+import { formatDateToISOstring } from '@/utils/format/formatUtil';
 
 interface CustomRange {
   from: Date | undefined;

@@ -2,7 +2,7 @@ import client from '@/service/instance/client';
 
 import handleApiReqeust from './handleApiReqeust';
 
-import type { UserRole, UserInfo, WarnResponse } from '@/types/user';
+import type { UserRole, UserInfo, WarnResponse, UserStatus } from '@/types/user';
 import type { GeneralRegisterType, LoginType, SocialRegisterType } from '@/schema/AuthSchema';
 
 type oAuthIdentity = 'kakao' | 'google';
@@ -31,8 +31,7 @@ export const SocialSignup = async (data: SocialRegisterType, accountType: string
 };
 
 export const login = async (data: LoginType) => {
-  const response = await handleApiReqeust<UserRole>(() => client.post('/api/users/login', data));
-
+  const response = await handleApiReqeust<UserStatus>(() => client.post('/api/users/login', data));
   return response;
 };
 
