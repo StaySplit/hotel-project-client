@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Home } from 'lucide-react';
-import useAuthStore from '@/store/useAuthStore';
+import useAuthStore from '@/stores/useAuthStore';
 import Logo from '@/assets/svg/Logo.svg';
 
 const ErrorPage = () => {

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import useAuthStore from '@/store/useAuthStore';
+import useAuthStore from '@/stores/useAuthStore';
 import handleApiReqeust from '@/service/api/handleApiReqeust';
 import client from '@/service/instance/client';
 import type { UserStatus } from '@/types/user';

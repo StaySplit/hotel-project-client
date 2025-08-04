@@ -3,10 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { SocialRegisterSchema, type SocialRegisterType } from '@/schema/AuthSchema';
 
-import { formatBirthDate } from '@/utils/format/formatBirthDate';
-
 import CommonInput from '../../common/input/CommonInput';
 import RHFInput from '../../common/input/RHFInput';
+import { formatBirthDate } from '@/utils/format/formatUtil';
 
 const SocialRegisterFields = [
   {

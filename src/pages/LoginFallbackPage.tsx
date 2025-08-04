@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import type { SocialRegisterType } from '@/schema/AuthSchema';
 
-import useAuthStore from '@/store/useAuthStore';
+import useAuthStore from '@/stores/useAuthStore';
 
 import { oAuthLogin, SocialSignup } from '@/service/api/auth';
 

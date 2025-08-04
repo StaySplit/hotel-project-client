@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from 'lucide-react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { accountMenuItems, myInfoMenuItems } from '@/types/common/menuItem';
-import useAuthStore from '@/store/useAuthStore';
+import useAuthStore from '@/stores/useAuthStore';
 
 const PaymentPage = () => {
   const location = useLocation();
@@ -31,6 +31,11 @@ const PaymentPage = () => {
   const isActive = (path: string) => {
     return location.pathname === path;
   };
+
+  useEffect(() => {
+    //FIXME: 서버응답이 있을 때 만
+    setNotifications(true);
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-50">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import HeartIcon from '../common/icons/HeartIcon';
 
 import { RatingStars } from './RatingStars';
-import formatNumberWithComma from '@/utils/format/formatNumberWithComma';
+import { formatNumberWithComma } from '@/utils/format/formatUtil';
 
 interface HotelCardProps {
   starLevel: number;

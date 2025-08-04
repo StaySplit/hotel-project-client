@@ -8,8 +8,8 @@ import { SearchSchema, type SearchType } from '@/schema/SearchSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import buildSearchQuery from '@/utils/buildSearchQuery';
-import formatDateToISOstring from '@/utils/format/formatDateToISOString';
 import getCoordsByAddress from '@/service/api/geocorder/getCoordsByAddress';
+import { formatDateToISOstring } from '@/utils/format/formatUtil';
 
 interface SearchFormProps {
   location?: string;

@@ -1,5 +1,5 @@
 import ProfileImage from '@/assets/png/profile-default.png';
-import useAuthStore from '@/store/useAuthStore';
+import useAuthStore from '@/stores/useAuthStore';
 import { profileMenuItems } from '@/types/common/menuItem';
 import { ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
