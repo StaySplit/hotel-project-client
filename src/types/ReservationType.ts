@@ -1,16 +1,5 @@
 export type BookingStatus = 'CONFIRMED' | 'PENDING' | 'CANCELLED' | 'EXPIRED';
 
-export interface BookingInfo {
-  time: string;
-  checkInDate: string;
-  checkOutDate: string;
-  roomType: string;
-  max_occupancy: number;
-  totalPrice: string;
-  description: string;
-  status: BookingStatus;
-}
-
 // =========================================
 // Store 인터페이스
 // =========================================
@@ -25,6 +14,7 @@ export interface ReservationRoom {
   nights: number;
   subtotalPrice: number;
   roomDescription?: string;
+  participantCount: number;
 }
 
 export interface Reservation {
@@ -36,8 +26,7 @@ export interface Reservation {
   reservationStatus: 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'EXPIRED';
   totalPrice: number;
   pricePaid: number;
-  createdAt: string | null;
-  totalParticipant: number;
+  createdAt: string;
   hotelName: string;
   hotelAddress: string;
   hotelPhotos: string[];
@@ -115,7 +104,7 @@ export interface HotelImageProps {
 // 메인 컴포넌트 Props 인터페이스
 // =========================================
 
-export interface BookingCardProps {
+export interface ReservationCardProps {
   booking: Reservation;
   onDelete?: (bookingId: number) => void;
 }
