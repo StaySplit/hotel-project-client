@@ -21,12 +21,14 @@ const PaymentAcctCard = () => {
           <span className="text-2xl font-bold text-gray-900">결제 수단 정보</span>
         </div>
         <div className="space-y-3 bg-gray-100 p-4">
-          <div className="text-ms font-bold text-gray-900">결제수단 : {fareBreakdown.payAcct}</div>
-          <div className="text-ms font-bold text-gray-900">
+          <div className="text-ms font-medium text-gray-900">
+            결제수단 : {fareBreakdown.payAcct}
+          </div>
+          <div className="text-ms font-medium text-gray-900">
             결제 일시 : {fareBreakdown.payDateTime}
           </div>
-          <div className="text-ms font-bold text-gray-900">결제 상태 : {fareBreakdown.state}</div>
-          <div className="text-ms font-bold text-gray-900">결제 번호 : {fareBreakdown.payNo}</div>
+          <div className="text-ms font-medium text-gray-900">결제 상태 : {fareBreakdown.state}</div>
+          <div className="text-ms font-medium text-gray-900">결제 번호 : {fareBreakdown.payNo}</div>
         </div>
 
         <div className="mt-6 text-center text-xs text-red-500">

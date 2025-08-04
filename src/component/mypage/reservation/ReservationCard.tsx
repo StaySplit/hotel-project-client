@@ -12,19 +12,20 @@ import type {
   BookingStatus,
 } from '@/types/ReservationType';
 import { formatDateToYMD, formatNumberToWon } from '@/utils/format/formatUtil';
+import { usePaymentStore } from '@/stores/usePaymentStore';
 
 // 예약 상태 표시 컴포넌트
 const BookingStatus = memo(({ status }: BookingStatusProps) => {
   const statusConfig: Record<BookingStatus, { text: string; color: string }> = {
     CONFIRMED: { text: '예약 완료', color: 'text-blue-600 hover:text-blue-700' },
-    PENDING: { text: '결제 대기', color: 'text-orange-600 hover:text-orange-700' },
+    PENDING: { text: '결제 대기', color: 'text-amber-500 hover:text-amber-600' },
     CANCELLED: { text: '예약 취소', color: 'text-red-600 hover:text-red-700' },
-    EXPIRED: { text: '예약 만료', color: 'text-gray-600 hover:text-gray-700' },
+    DONE: { text: '이용 완료', color: 'text-gray-600 hover:text-gray-700' },
   };
 
   const config = statusConfig[status];
 
-  return <button className={`font-medium ${config.color}`}>{config.text}</button>;
+  return <button className={`font-bold ${config.color}`}>{config.text}</button>;
 });
 
 BookingStatus.displayName = 'BookingStatus';
@@ -81,6 +82,9 @@ HotelImage.displayName = 'HotelImage';
 
 // 메인 예약 카드 컴포넌트
 const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
+  const togglePayment = usePaymentStore((state) => state.togglePayment);
+
+  const { paymentModal } = usePaymentStore();
   const handleDelete = () => {
     if (onDelete) {
       onDelete(booking.reservationId);
@@ -101,7 +105,13 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
 
       {/* 카드 컨텐츠 */}
       {booking.rooms.map((reservationRoom) => (
-        <div className="cursor-pointer rounded-xl p-4 hover:bg-gray-100">
+        <div
+          className="cursor-pointer rounded-xl p-4 hover:bg-gray-100"
+          onClick={() => {
+            togglePayment();
+            console.log('!!!', paymentModal);
+          }}
+        >
           <Card.Content className="text-right">
             {/* 가격 정보 */}
             <div className="text-lg font-bold text-gray-800">
@@ -113,7 +123,7 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
             {/* 예약 상세 정보 */}
             <div className="flex items-center space-x-6">
               {/* 호텔 이미지 */}
-              <HotelImage image={booking.hotelPhotos[0]} hotelName={booking.hotelName} />
+              <HotelImage image={booking.hotelPhotos} hotelName={booking.hotelName} />
 
               {/* 예약 정보 */}
               <div className="flex-1">

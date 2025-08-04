@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Download } from 'lucide-react';
 import TabNavigation from '@/component/common/Tab/TabNavigation';
-import BookingCard from '@/component/mypage/reservation/BookingCard';
+import ReservationCard from '@/component/mypage/reservation/ReservationCard';
 import { getReservationInfo } from '@/service/api/reservation';
 import { useReservationStore } from '@/stores/useReservationStore';
+import PaymentPage from '../payment/PaymentPage';
+import { usePaymentStore } from '@/stores/usePaymentStore';
 
 const ReservationPage = () => {
+  const { paymentModal, togglePayment } = usePaymentStore();
   const { reservations, setReservations } = useReservationStore();
   const [activeTab, setActiveTab] = useState('전체');
 
@@ -39,6 +42,15 @@ const ReservationPage = () => {
 
   return (
     <>
+      {paymentModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          onClick={togglePayment}
+        >
+          <div className="absolute inset-0 bg-gray-600 opacity-50" />
+          <PaymentPage />
+        </div>
+      )}
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <h1 className="text-3xl font-bold text-gray-800">예약 내역</h1>
@@ -53,7 +65,7 @@ const ReservationPage = () => {
       {/* 예약 카드 목록 */}
       <div className="space-y-6">
         {filteredBookings.map((booking) => (
-          <BookingCard booking={booking} key={booking.reservationId} />
+          <ReservationCard booking={booking} key={booking.reservationId} />
         ))}
       </div>
     </>
