@@ -5,7 +5,7 @@ import HotelCard from '@/component/card/HotelCard';
 import SearchForm from '@/component/form/SearchForm';
 
 import useGetInfiniteAllHotels from '@/hooks/queries/hotels/useGetInfiniteHotels';
-import CardSkeleton from '@/component/ui/CardSkeleton';
+import CardSkeleton from '@/component/common/card/ui/CardSkeleton';
 import useObserver from '@/hooks/useObserver';
 
 const CategoryGroup = [

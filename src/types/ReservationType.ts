@@ -1,4 +1,4 @@
-export type BookingStatus = 'CONFIRMED' | 'PENDING' | 'CANCELLED' | 'EXPIRED';
+export type BookingStatus = 'CONFIRMED' | 'PENDING' | 'CANCELLED' | 'DONE';
 
 // =========================================
 // Store 인터페이스
@@ -23,13 +23,13 @@ export interface Reservation {
   reservationNumber: string;
   checkInDate: string;
   checkOutDate: string;
-  reservationStatus: 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'EXPIRED';
+  reservationStatus: 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'DONE';
   totalPrice: number;
   pricePaid: number;
   createdAt: string;
   hotelName: string;
   hotelAddress: string;
-  hotelPhotos: string[];
+  hotelPhotos: string;
   hotelCheckInTime: string;
   hotelCheckOutTime: string;
   rooms: ReservationRoom[];

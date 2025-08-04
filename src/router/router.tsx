@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import Provider from '@/provider';
+import Provider from '@/provider/Provider';
 import Layout from '@/layout/Layout';
 import HotelsPage from '@/component/hotels/HotelsPage';
 import HotelDetailPage from '@/component/hotel_detail/HotelDetailPage';
