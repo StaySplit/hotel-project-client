@@ -1,6 +1,5 @@
 import Card from '@/component/common/card/Card';
 import { formatNumberToWon } from '@/utils/format/formatUtil';
-import { memo } from 'react';
 interface FareItem {
   label: string;
   price: number;
@@ -13,7 +12,7 @@ const fareBreakdown: FareItem[] = [
   { label: '수수료', price: 0, quantity: 3, pricePaid: 0 },
 ];
 
-const PaymentCard = memo(({}) => {
+const PaymentCard = () => {
   const totalAmount = fareBreakdown.reduce((sum, item) => sum + item.price * item.quantity, 0);
   return (
     <Card className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
@@ -67,6 +66,6 @@ const PaymentCard = memo(({}) => {
       </Card.Content>
     </Card>
   );
-});
+};
 
 export default PaymentCard;

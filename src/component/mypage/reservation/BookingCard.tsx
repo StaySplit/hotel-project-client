@@ -87,10 +87,6 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
     }
   };
 
-  const handleClick = () => {
-    booking.reservationId;
-  };
-
   return (
     <Card className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       {/* 예약 헤더 */}
@@ -105,7 +101,7 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
 
       {/* 카드 컨텐츠 */}
       {booking.rooms.map((reservationRoom) => (
-        <div className="cursor-pointer rounded-xl p-4 hover:bg-gray-100" onClick={handleClick}>
+        <div className="cursor-pointer rounded-xl p-4 hover:bg-gray-100">
           <Card.Content className="text-right">
             {/* 가격 정보 */}
             <div className="text-lg font-bold text-gray-800">
