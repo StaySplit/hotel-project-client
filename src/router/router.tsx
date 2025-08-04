@@ -11,11 +11,11 @@ import SignUpPage from '@/pages/SignUpPage';
 import LoginFallbackPage from '@/pages/LoginFallbackPage';
 import SearchLayout, { searchLoader } from '@/layout/SearchLayout';
 import SearchPage from '@/pages/SearchPage';
-import PaymentPage from '@/pages/PaymentPage';
+import PaymentPage from '@/component/mypage/payment/PaymentPage';
 import MyPage from '@/pages/MyPage';
 import ErrorPage from '@/pages/ErrorPage';
 import ProtectedRoute from './ProtectedRouter';
-import ReservationPage from '@/pages/ReservationPage';
+import ReservationPage from '@/component/mypage/reservation/ReservationPage';
 
 export const router = createBrowserRouter([
   {

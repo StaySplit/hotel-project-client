@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Download } from 'lucide-react';
 import TabNavigation from '@/component/common/Tab/TabNavigation';
-import BookingCard from '@/component/mypage/booking/BookingCard';
+import BookingCard from '@/component/mypage/reservation/BookingCard';
 import { getReservationInfo } from '@/service/api/reservation';
 import { useReservationStore } from '@/stores/useReservationStore';
+import PaymentCard from '@/component/mypage/payment/PaymentCard';
+import PaymentAcctCard from '@/component/mypage/payment/PaymentAcctCard';
 
-const ReservationPage = () => {
+const PaymentPage = () => {
   const { reservations, setReservations } = useReservationStore();
   const [activeTab, setActiveTab] = useState('전체');
 
@@ -39,25 +41,11 @@ const ReservationPage = () => {
 
   return (
     <>
-      <div className="mb-8 flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-3xl font-bold text-gray-800">예약 내역</h1>
-        </div>
-        <div className="flex items-center space-x-4">
-          <span className="text-gray-600">예약을 찾을 수 없으신가요?</span>
-          <Download className="h-5 w-5 text-gray-400" />
-        </div>
-      </div>
-      <TabNavigation tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
-
-      {/* 예약 카드 목록 */}
-      <div className="space-y-6">
-        {filteredBookings.map((booking) => (
-          <BookingCard booking={booking} key={booking.reservationId} />
-        ))}
-      </div>
+      <PaymentCard />
+      <div className="my-4"></div>
+      <PaymentAcctCard />
     </>
   );
 };
 
-export default ReservationPage;
+export default PaymentPage;

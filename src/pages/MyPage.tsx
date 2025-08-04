@@ -40,7 +40,7 @@ const PaymentPage = () => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* 사이드바 */}
-      <div className="w-80 border-t border-gray-200 bg-white pt-2 shadow-sm">
+      <div className="w-80 rounded-lg border-t border-gray-200 bg-white pt-2 shadow-sm">
         <div className="p-6">
           <div className="mb-8 flex items-center space-x-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">

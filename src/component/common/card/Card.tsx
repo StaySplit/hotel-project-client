@@ -61,12 +61,21 @@ export const CardFooter = ({
   alignment = 'text-right',
   ...props
 }: CardFooterProps) => {
-  const footerClasses = `mt-4 pt-4' ${divider ? 'border-t border-gray-200' : ''} ${alignment} ${className}`;
+  const footerClasses = `mt-4 pt-4' ${divider ? 'pt-4 border-t border-dashed border-blue-600' : ''} ${alignment} ${className}`;
 
   return (
-    <div className={footerClasses} {...props}>
-      {children}
-    </div>
+    <>
+      {divider ? (
+        <div className={footerClasses} {...props}>
+          {children}
+        </div>
+      ) : (
+        <>
+          <div className={footerClasses} {...props}></div>
+          <div> {children} </div>
+        </>
+      )}
+    </>
   );
 };
 

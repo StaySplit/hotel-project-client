@@ -87,6 +87,10 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
     }
   };
 
+  const handleClick = () => {
+    booking.reservationId;
+  };
+
   return (
     <Card className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       {/* 예약 헤더 */}
@@ -101,69 +105,71 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
 
       {/* 카드 컨텐츠 */}
       {booking.rooms.map((reservationRoom) => (
-        <Card.Content className="text-right">
-          {/* 가격 정보 */}
-          <div className="text-lg font-bold text-gray-800">
-            결제 금액: {formatNumberToWon(reservationRoom.subtotalPrice)}
-          </div>
-          <div className="text-xs text-gray-700">
-            총 금액: {formatNumberToWon(booking.totalPrice)}
-          </div>
-          {/* 예약 상세 정보 */}
-          <div className="flex items-center space-x-6">
-            {/* 호텔 이미지 */}
-            <HotelImage image={booking.hotelPhotos[0]} hotelName={booking.hotelName} />
+        <div className="cursor-pointer rounded-xl p-4 hover:bg-gray-100" onClick={handleClick}>
+          <Card.Content className="text-right">
+            {/* 가격 정보 */}
+            <div className="text-lg font-bold text-gray-800">
+              결제 금액: {formatNumberToWon(reservationRoom.subtotalPrice)}
+            </div>
+            <div className="text-xs text-gray-700">
+              총 금액: {formatNumberToWon(booking.totalPrice)}
+            </div>
+            {/* 예약 상세 정보 */}
+            <div className="flex items-center space-x-6">
+              {/* 호텔 이미지 */}
+              <HotelImage image={booking.hotelPhotos[0]} hotelName={booking.hotelName} />
 
-            {/* 예약 정보 */}
-            <div className="flex-1">
-              <div className="mb-4 flex items-center space-x-4">
-                <h3 className="text-l font-semibold text-gray-800">
-                  {booking.hotelAddress} → {booking.hotelName} ({reservationRoom.roomType})
-                </h3>
-              </div>
-
-              <div className="flex items-center space-x-8">
-                {/* 체크인 날짜 */}
-                <DateDisplay date={booking.checkInDate} time={booking.hotelCheckInTime} />
-
-                {/* 숙박 기간 표시 */}
-                <div className="flex flex-1 items-center justify-center">
-                  <div className="relative h-px w-20 bg-gray-300">
-                    <Hotel className="absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform text-gray-400" />
-                    <div className="pt-2 text-center text-sm text-gray-500">
-                      {reservationRoom.nights}박 일정
-                    </div>
-                  </div>
+              {/* 예약 정보 */}
+              <div className="flex-1">
+                <div className="mb-4 flex items-center space-x-4">
+                  <h3 className="text-l font-semibold text-gray-800">
+                    {booking.hotelAddress} → {booking.hotelName} ({reservationRoom.roomType})
+                  </h3>
                 </div>
 
-                {/* 체크아웃 날짜 */}
-                <DateDisplay date={booking.checkOutDate} time={booking.hotelCheckOutTime} />
+                <div className="flex items-center space-x-8 rounded-lg bg-indigo-50 p-4">
+                  {/* 체크인 날짜 */}
+                  <DateDisplay date={booking.checkInDate} time={booking.hotelCheckInTime} />
 
-                {/* 객실 정보 */}
-                <RoomInfo roomId={reservationRoom.roomId} roomType={reservationRoom.roomType} />
+                  {/* 숙박 기간 표시 */}
+                  <div className="flex flex-1 items-center justify-center">
+                    <div className="relative h-px w-20 bg-gray-300">
+                      <Hotel className="absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform text-gray-400" />
+                      <div className="pt-2 text-center text-sm text-gray-500">
+                        {reservationRoom.nights}박 일정
+                      </div>
+                    </div>
+                  </div>
 
-                {/* 투숙객 정보 */}
-                <GuestInfo
-                  userName={booking.userName}
-                  quantity={reservationRoom.participantCount}
-                  maxOccupancy={reservationRoom.maxOccupancy}
-                />
+                  {/* 체크아웃 날짜 */}
+                  <DateDisplay date={booking.checkOutDate} time={booking.hotelCheckOutTime} />
+
+                  {/* 객실 정보 */}
+                  <RoomInfo roomId={reservationRoom.roomId} roomType={reservationRoom.roomType} />
+
+                  {/* 투숙객 정보 */}
+                  <GuestInfo
+                    userName={booking.userName}
+                    quantity={reservationRoom.participantCount}
+                    maxOccupancy={reservationRoom.maxOccupancy}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* 추가 서비스 정보 */}
-          <div className="mt-4 border-t border-gray-200 pt-4 text-left">
-            <div className="text-sm text-gray-600">
-              객실정보 : {reservationRoom.roomDescription}
+            {/* 추가 서비스 정보 */}
+            <div className="mt-4 border-t border-gray-200 pt-4 text-left">
+              <div className="text-sm text-gray-600">
+                객실정보 : {reservationRoom.roomDescription}
+              </div>
+              <div className="text-sm text-gray-600">부가 서비스 (유료)</div>
             </div>
-            <div className="text-sm text-gray-600">부가 서비스 (유료)</div>
-          </div>
-        </Card.Content>
+          </Card.Content>
+        </div>
       ))}
 
       {/* 삭제 버튼 */}
-      <Card.Footer divider={false}>
+      <Card.Footer divider={true}>
         <PrimaryButton size="md" onClick={handleDelete}>
           삭제
         </PrimaryButton>
