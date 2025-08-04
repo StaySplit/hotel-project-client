@@ -176,6 +176,18 @@ pipeline {
                         status: 'SUCCESS',
                         targetUrl: "${env.BUILD_URL}"
                     )
+                    githubNotify(
+                        context: 'jenkins/pr-check', 
+                        status: 'SUCCESS', 
+                        description: 'PR 검증이 성공적으로 완료되었습니다.',
+                        targetUrl: "${env.BUILD_URL}"
+                    )
+                    githubNotify(
+                        context: 'CI/Jenkins', 
+                        status: 'SUCCESS', 
+                        description: 'Jenkins CI 빌드가 성공했습니다.',
+                        targetUrl: "${env.BUILD_URL}"
+                    )
                 } catch (Exception e) {
                     echo "GitHub notification failed: ${e.message}"
                 }
