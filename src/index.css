@@ -30,6 +30,7 @@
   font-display: swap;
   src: url('./assets/fonts/Pretendard-Bold.woff2') format('woff2');
 }
+
 @theme {
   --font-sans: Pretendard, sans-serif;
   --color-primary-100: #e7eef6;
@@ -45,14 +46,19 @@
   --color-black: #1a1a1a;
 
   --color-gray-primary: #dadada;
+  --color-gray-primary-200: #a9a9a9;
   --color-error: #e57373;
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100svh;
 }
 
 .selected-range {
   background-color: #2196f3;
   color: white;
+}
+
+input::placeholder {
+  color: var(--color-gray-primary-200);
 }
