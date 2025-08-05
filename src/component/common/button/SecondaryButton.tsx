@@ -3,6 +3,7 @@ interface SecondaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElem
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   full?: boolean;
+  bold?: boolean;
 }
 
 export const SecondaryButton = ({
@@ -10,12 +11,13 @@ export const SecondaryButton = ({
   children,
   disabled = false,
   full = false,
+  bold = false,
   ...props
 }: SecondaryButtonProps) => {
   const sizeClass = {
-    sm: 'py-1.5 px-4 text-sm',
-    md: 'py-2 px-5 text-base',
-    lg: 'py-3 px-6 text-lg',
+    sm: 'py-1.5 px-4 text-sm rounded-xl',
+    md: 'py-2 px-5 text-base rounded-xl',
+    lg: 'py-3 px-6 text-lg rounded-2xl',
   }[size];
 
   const baseClass = disabled
@@ -24,7 +26,7 @@ export const SecondaryButton = ({
 
   return (
     <button
-      className={`rounded-xl ${sizeClass} ${baseClass} transition-colors duration-150 ${full && 'w-full'}`}
+      className={` ${sizeClass} ${baseClass} transition-colors duration-150 ${full && 'w-full'} ${bold && 'font-bold'}`}
       disabled={disabled}
       {...props}
     >
