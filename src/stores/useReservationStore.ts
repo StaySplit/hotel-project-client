@@ -1,4 +1,4 @@
-import type { ApiResponse, Reservation, ReservationResponse } from '@/types/ReservationType';
+import type { Reservation, ReservationResponse } from '@/types/ReservationType';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -11,7 +11,7 @@ interface ReservationState {
   loading: boolean;
   error: string | null;
 
-  setReservations: (response: ApiResponse<ReservationResponse>) => void;
+  setReservations: (response: ReservationResponse) => void;
   deleteReservation: (reservationId: number) => void;
   setCurrentPage: (page: number) => void;
   setPageSize: (size: number) => void;
@@ -37,8 +37,8 @@ export const useReservationStore = create<ReservationState>()(
       loading: false,
       error: null,
 
-      setReservations: (response: ApiResponse<ReservationResponse>) => {
-        const { result } = response;
+      setReservations: (response: ReservationResponse) => {
+        const result = response;
         set({
           reservations: result.content,
           currentPage: result.number,

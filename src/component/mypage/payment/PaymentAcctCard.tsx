@@ -31,7 +31,7 @@ const PaymentAcctCard = () => {
           <div className="text-ms font-medium text-gray-900">결제 번호 : {fareBreakdown.payNo}</div>
         </div>
 
-        <div className="mt-6 text-center text-xs text-red-500">
+        <div className="mt-6 text-center text-xs font-bold text-red-500">
           결제 완료 후에는 결제 수단 변경이 불가능하오니 유의해주시기 바랍니다.
         </div>
       </Card.Content>

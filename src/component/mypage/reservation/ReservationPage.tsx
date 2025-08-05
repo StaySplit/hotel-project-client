@@ -4,7 +4,7 @@ import TabNavigation from '@/component/common/Tab/TabNavigation';
 import ReservationCard from '@/component/mypage/reservation/ReservationCard';
 import { getReservationInfo } from '@/service/api/reservation';
 import { useReservationStore } from '@/stores/useReservationStore';
-import PaymentPage from '../payment/PaymentPage';
+import PaymentPage from '../payment/PaymentDetail';
 import { usePaymentStore } from '@/stores/usePaymentStore';
 
 const ReservationPage = () => {
