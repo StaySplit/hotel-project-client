@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { User, Hotel } from 'lucide-react';
+import { Calendar, Clock, Hotel, MapPin, Users } from 'lucide-react';
 import Card from '@/component/common/card/Card';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
 import type {
@@ -13,6 +13,7 @@ import type {
 } from '@/types/ReservationType';
 import { formatDateToYMD, formatNumberToWon } from '@/utils/format/formatUtil';
 import { usePaymentStore } from '@/stores/usePaymentStore';
+import { getPaymentsByReservationId } from '@/service/api/payment';
 
 // 예약 상태 표시 컴포넌트
 const BookingStatus = memo(({ status }: BookingStatusProps) => {
@@ -34,7 +35,10 @@ BookingStatus.displayName = 'BookingStatus';
 const DateDisplay = memo(({ date, time }: DateDisplayProps) => (
   <div className="text-center">
     <div className="text-xl font-bold text-gray-800">{date}</div>
-    <div className="text-sm text-gray-500">{time}</div>
+    <div className="text-sm text-gray-500">
+      <Clock className="inline-flex h-3 w-3" />
+      {time}
+    </div>
   </div>
 ));
 
@@ -58,7 +62,7 @@ const GuestInfo = memo(({ userName, quantity, maxOccupancy }: GuestInfoProps) =>
   <div className="ml-8 text-right">
     <div className="font-medium text-gray-800">{userName}</div>
     <div className="text-xs text-gray-500">
-      <User className="inline-flex h-4 w-4 text-gray-400" />
+      <Users className="inline-flex h-4 w-4 text-gray-400" />
       투숙객 {quantity}명 / 정원 {maxOccupancy}명
     </div>
   </div>
@@ -82,12 +86,22 @@ HotelImage.displayName = 'HotelImage';
 
 // 메인 예약 카드 컴포넌트
 const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
-  const togglePayment = usePaymentStore((state) => state.togglePayment);
+  const { setPayments, togglePayment, setReservationId, setRoomId } = usePaymentStore();
 
-  const { paymentModal } = usePaymentStore();
   const handleDelete = () => {
     if (onDelete) {
       onDelete(booking.reservationId);
+    }
+  };
+
+  const handlePayment = async (roomId: number) => {
+    setReservationId(booking.reservationId);
+    setRoomId(roomId);
+
+    const res = await getPaymentsByReservationId(booking.reservationId);
+    setPayments(res);
+    if (res) {
+      togglePayment();
     }
   };
 
@@ -98,6 +112,7 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
         <div className="flex items-center space-x-3">
           <Hotel className="h-5 w-5 text-gray-400" />
           <span className="text-gray-600">예약번호: {booking.reservationNumber}</span>
+          <Calendar className="h-5 w-5 text-gray-400" />
           <span className="text-gray-600">예약일: {formatDateToYMD(booking.createdAt)}</span>
         </div>
         <BookingStatus status={booking.reservationStatus} />
@@ -106,10 +121,10 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
       {/* 카드 컨텐츠 */}
       {booking.rooms.map((reservationRoom) => (
         <div
+          key={reservationRoom.roomId}
           className="cursor-pointer rounded-xl p-4 hover:bg-gray-100"
           onClick={() => {
-            togglePayment();
-            console.log('!!!', paymentModal);
+            handlePayment(reservationRoom.roomId);
           }}
         >
           <Card.Content className="text-right">
@@ -128,7 +143,8 @@ const ReservationCard = memo(({ booking, onDelete }: ReservationCardProps) => {
               {/* 예약 정보 */}
               <div className="flex-1">
                 <div className="mb-4 flex items-center space-x-4">
-                  <h3 className="text-l font-semibold text-gray-800">
+                  <MapPin className="h-4 w-4" />
+                  <h3 className="text-l text-left font-semibold text-gray-800">
                     {booking.hotelAddress} → {booking.hotelName} ({reservationRoom.roomType})
                   </h3>
                 </div>

@@ -66,11 +66,6 @@ export interface ReservationResponse {
   empty: boolean;
 }
 
-export interface ApiResponse<T> {
-  resultCode: string;
-  result: T;
-}
-
 // =========================================
 // 서브 컴포넌트 Props 인터페이스
 // =========================================

@@ -14,12 +14,10 @@ const MypageMenu = () => {
   // 업데이트 알림 상태 관리
   const [notifications, setNotifications] = useState(true);
 
-  // 메뉴 클릭 핸들러
   const handleMenuClick = (path: string) => {
     navigate(path);
   };
 
-  // 메뉴 클릭 핸들러
   const handleMenuFold = (section: 'reservation' | 'account') => {
     if (section === 'reservation') {
       setIsMyReservationOpen((prev) => !prev);
