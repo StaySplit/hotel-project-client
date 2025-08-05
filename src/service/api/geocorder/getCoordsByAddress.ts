@@ -9,16 +9,20 @@ import type KakaoCoordsResponse from '@/types/kakao/KakaoAddressToCoordsResponse
  */
 
 const getCoordsByAddress = async (adderss: string) => {
-  const response = await kakao.get<KakaoCoordsResponse>(
-    `/local/search/address.json?query=${encodeURIComponent(adderss)}`,
-  );
+  try {
+    const response = await kakao.get<KakaoCoordsResponse>(
+      `/local/search/address.json?query=${encodeURIComponent(adderss)}`,
+    );
 
-  const responseAddress = response.data.documents[0].address;
+    const responseAddress = response.data.documents[0].address;
 
-  return {
-    lat: responseAddress.y,
-    lon: responseAddress.x,
-  };
+    return {
+      lat: responseAddress.y,
+      lon: responseAddress.x,
+    };
+  } catch {
+    throw new Error('잘못된 주소입니다.');
+  }
 };
 
 export default getCoordsByAddress;
