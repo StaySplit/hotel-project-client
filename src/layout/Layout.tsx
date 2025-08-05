@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div className="mx-auto flex h-svh w-full max-w-[1400px] flex-col">
       <Header />
-      <main className="flex-1 pb-4">
+      <main className="flex-1">
         <Outlet />
       </main>
       <footer className="hidden md:block">공통 푸터</footer>
