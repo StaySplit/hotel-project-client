@@ -10,7 +10,7 @@ const HeaderProfile = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState<boolean>(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
-  const { setLogout } = useAuthStore();
+  const { nickName, setLogout } = useAuthStore();
 
   const navigate = useNavigate();
 
@@ -49,6 +49,7 @@ const HeaderProfile = () => {
         onClick={handleToggleProfileMenu}
         className="flex cursor-pointer items-center gap-2 rounded-full p-1 transition-colors duration-150 hover:bg-gray-100"
       >
+        <div className="p-2 text-sm font-bold text-sky-700">{nickName} 님</div>
         <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-gray-200">
           <img src={ProfileImage} alt="프로필" className="h-full w-full object-cover" />
         </div>
