@@ -1,13 +1,14 @@
 import { Outlet } from 'react-router-dom';
+import Header from './Header';
 
 const Layout = () => {
   return (
-    <div>
-      <header>공통 헤더</header>
-      <main>
+    <div className="mx-auto flex h-svh w-full max-w-[1400px] flex-col">
+      <Header />
+      <main className="flex-1 pb-4">
         <Outlet />
       </main>
-      <footer>공통 푸터</footer>
+      <footer className="hidden md:block">공통 푸터</footer>
     </div>
   );
 };
