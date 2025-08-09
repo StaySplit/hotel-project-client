@@ -1,5 +1,5 @@
 import HotelCard from '@/component/card/HotelCard';
-import CardSkeleton from '@/component/ui/CardSkeleton';
+import CardSkeleton from '@/component/common/card/ui/CardSkeleton';
 import hotelKeys from '@/hooks/queries/hotels/hotelKeys';
 import useObserver from '@/hooks/useObserver';
 import type { SearchTerm } from '@/layout/SearchLayout';

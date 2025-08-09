@@ -8,7 +8,8 @@ pipeline {
     environment {
        REACT_APP_API_URL = "${env.REACT_APP_API_URL}"
         CI = "true"
-        NODE_ENV = "production"
+        NODE_ENV = 'development'
+        NPM_CONFIG_PRODUCTION = 'false'
     }
 
     stages {
@@ -18,13 +19,77 @@ pipeline {
             }
         }
 
+        stage('Environment Check') {
+            steps {
+                echo 'Checking environment...'
+                bat '''
+                    echo "=== Environment Information ==="
+                    node --version
+                    npm --version
+                    echo "Workspace: %WORKSPACE%"
+                    echo "NODE_ENV: %NODE_ENV%"
+                    echo "CI: %CI%"
+                    
+                    echo "=== Checking package files ==="
+                    if exist "package.json" (
+                        echo "package.json exists"
+                    ) else (
+                        echo "ERROR: package.json not found"
+                        exit 1
+                    )
+                    
+                    if exist "package-lock.json" (
+                        echo "package-lock.json exists"
+                    ) else (
+                        echo "WARNING: package-lock.json not found"
+                    )
+                '''
+            }
+        }
+
+        stage('Clean Cache') {
+            steps {
+                echo 'Cleaning npm cache...'
+                bat '''
+                    if exist "node_modules" rmdir /s /q node_modules
+                    if exist "package-lock.json" del package-lock.json
+                    npm cache clean --force
+                '''
+            }
+        }
+        
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
                 bat '''
-                    node --version
-                    npm --version
-                    npm ci --prefer-offline --no-audit
+                    npm install
+                    echo "=== Verifying Installation ==="
+                    npm list --depth=0
+                    if exist "node_modules" (
+                        echo "node_modules directory created successfully"
+                    ) else (
+                        echo "ERROR: node_modules directory not created"
+                        exit 1
+                    )
+                    
+                    echo "=== Checking key dependencies ==="
+                    if exist "node_modules\\.bin\\eslint.cmd" (
+                        echo "ESLint installed successfully"
+                    ) else (
+                        echo "WARNING: ESLint not found in node_modules"
+                    )
+                    
+                    if exist "node_modules\\.bin\\tsc.cmd" (
+                        echo "TypeScript installed successfully"
+                    ) else (
+                        echo "WARNING: TypeScript not found in node_modules"
+                    )
+                    
+                    if exist "node_modules\\.bin\\vite.cmd" (
+                        echo "Vite installed successfully"
+                    ) else (
+                        echo "WARNING: Vite not found in node_modules"
+                    )
                 '''
             }
         }
@@ -36,7 +101,26 @@ pipeline {
                     try {
                         bat 'npm run lint'
                     } catch (Exception e) {
-                        echo 'Lint failed, but continuing build...'
+                        echo "Lint failed: ${e.getMessage()}"
+                        echo 'Continuing build despite lint errors...'
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+        }
+
+        stage('TypeScript Check') {
+            steps {
+                echo 'Running TypeScript type check...'
+                script {
+                    try {
+                        bat '''
+                            echo "=== TypeScript Type Check ==="
+                            npx tsc --noEmit
+                        '''
+                    } catch (Exception e) {
+                        echo "TypeScript check failed: ${e.getMessage()}"
+                        echo 'Continuing build despite TypeScript errors...'
                         currentBuild.result = 'UNSTABLE'
                     }
                 }
@@ -90,6 +174,18 @@ pipeline {
                         context: 'continuous-integration/jenkins/pr-merge',
                         description: 'Build succeeded',
                         status: 'SUCCESS',
+                        targetUrl: "${env.BUILD_URL}"
+                    )
+                    githubNotify(
+                        context: 'jenkins/pr-check', 
+                        status: 'SUCCESS', 
+                        description: 'PR 검증이 성공적으로 완료되었습니다.',
+                        targetUrl: "${env.BUILD_URL}"
+                    )
+                    githubNotify(
+                        context: 'CI/Jenkins', 
+                        status: 'SUCCESS', 
+                        description: 'Jenkins CI 빌드가 성공했습니다.',
                         targetUrl: "${env.BUILD_URL}"
                     )
                 } catch (Exception e) {

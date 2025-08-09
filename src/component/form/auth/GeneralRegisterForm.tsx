@@ -3,11 +3,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { GeneralRegisterSchema, type GeneralRegisterType } from '@/schema/AuthSchema';
 
-import { formatBirthDate } from '@/utils/format/formatBirthDate';
-
 import CommonInput from '../../common/input/CommonInput';
 import RHFInput from '../../common/input/RHFInput';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
+import { formatBirthDate } from '@/utils/format/formatUtil';
 
 const GeneralRegisterFields = [
   {
