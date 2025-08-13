@@ -5,6 +5,7 @@ interface PrimaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children: React.ReactNode;
   full?: boolean;
   bold?: boolean;
+  className?: string;
 }
 
 export const PrimaryButton = ({
@@ -13,6 +14,7 @@ export const PrimaryButton = ({
   disabled = false,
   full = false,
   bold = false,
+  className,
   ...props
 }: PrimaryButtonProps) => {
   const sizeClass = {
@@ -27,7 +29,7 @@ export const PrimaryButton = ({
 
   return (
     <button
-      className={` ${sizeClass} ${baseClass} transition-colors duration-150 ${full && 'w-full'} ${bold && 'font-bold'}`}
+      className={`${className ? className : ''} ${sizeClass} ${baseClass} transition-colors duration-150 ${full && 'w-full'} ${bold && 'font-bold'}`}
       disabled={disabled}
       {...props}
     >
