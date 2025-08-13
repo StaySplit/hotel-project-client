@@ -12,7 +12,7 @@ import Modal from '@/component/modal/Modal';
 import ModalHeader from '@/component/modal/ModalHeader';
 import ModalWrapper from '@/component/modal/ModalWrapper';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
-import type { UserRole } from '@/types/user';
+import type { UserRole } from '@/types/UserType';
 
 const LoginFallbackPage = () => {
   const [error, setError] = useState<boolean>(false);

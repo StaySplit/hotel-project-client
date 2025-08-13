@@ -10,7 +10,7 @@ const HeaderProfile = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState<boolean>(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
-  const { nickName, setLogout } = useAuthStore();
+  const { role, nickName, setLogout } = useAuthStore();
 
   const navigate = useNavigate();
 
@@ -63,15 +63,18 @@ const HeaderProfile = () => {
       {/* 드롭다운 메뉴 */}
       {profileMenuOpen && (
         <div className="absolute top-full right-0 z-50 mt-2 w-48 rounded-lg border border-gray-200 bg-white py-2 shadow-lg">
-          {profileMenuItems.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => handleMenuClick(item.href)}
-              className="block w-full cursor-pointer px-4 py-2 text-left text-sm text-gray-700 transition-colors duration-150 hover:bg-gray-100"
-            >
-              {item.label}
-            </button>
-          ))}
+          {profileMenuItems.map(
+            (item, index) =>
+              role === item.role && (
+                <button
+                  key={index}
+                  onClick={() => handleMenuClick(item.href)}
+                  className="block w-full cursor-pointer px-4 py-2 text-left text-sm text-gray-700 transition-colors duration-150 hover:bg-gray-100"
+                >
+                  {item.label}
+                </button>
+              ),
+          )}
           <hr className="my-2 border-gray-200" />
           <button
             onClick={handleLogout}
