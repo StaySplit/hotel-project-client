@@ -27,7 +27,7 @@ const RegisterHotelPage = () => {
       const response_image = await registerPhoto(
         buildSearchQuery({
           entityType: 'HOTEL',
-          entityId: '1',
+          entityId: hotelId.toString(),
           displayType: 'MAIN',
         }),
         data.image as File,
