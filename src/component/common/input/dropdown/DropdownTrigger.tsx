@@ -9,7 +9,7 @@ const Trigger = ({ placeholder }: TriggerProps) => {
   const { toggleDropdown, selectedOption, isOpen } = useDropdown();
   return (
     <div
-      className={`border-gray-primary relative w-full cursor-pointer rounded-lg border bg-white p-2 ${!selectedOption ? 'text-gray-primary-200' : 'text-black'}`}
+      className={`relative w-full cursor-pointer rounded-lg border bg-white p-2 transition-colors ${!selectedOption ? 'text-gray-primary-200' : 'text-black'} ${isOpen ? 'border-primary-300' : 'border-gray-primary'}`}
       onClick={toggleDropdown}
     >
       {selectedOption?.label || placeholder}
