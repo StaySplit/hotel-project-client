@@ -10,15 +10,16 @@ import HotelRegisterForm from '@/component/hotels/register/HotelRegisterForm';
 
 const RegisterHotelPage = () => {
   const onSubmit = async (data: HotelRegisterType) => {
-    const { lat: latitude, lon: longitude } = await getCoordsByAddress(data.address);
+    const { lat, lon } = await getCoordsByAddress(data.address);
 
     const response = await registerHotel({
       name: data.name,
       address: data.address,
       starLevel: data.starLevel,
       description: data.description,
-      latitude,
-      longitude,
+      image: data.image,
+      latitude: Number(lat),
+      longitude: Number(lon),
     });
     console.log(response);
     const hotelId = response.hotelId;
