@@ -1,7 +1,7 @@
 import GeneralRegisterForm from '@/component/form/auth/GeneralRegisterForm';
 import type { GeneralRegisterType } from '@/schema/AuthSchema';
 import { GeneralSignup, login } from '@/service/api/auth';
-import type { UserRole } from '@/types/user';
+import { type UserRole, USER_ROLE } from '@/types/UserType';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ const getButtonStyle = (currentState: boolean) => {
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const [role, setRole] = useState<UserRole>('ROLE_CUSTOMER');
+  const [role, setRole] = useState<UserRole>(USER_ROLE.NONE);
 
   const handleSubmit = async (data: GeneralRegisterType) => {
     try {
@@ -27,9 +27,8 @@ const SignUpPage = () => {
         await login({ email: data.email, password: data.password });
         return navigate('/');
       }
-
-      navigate('/login');
     } catch (error) {
+      navigate('/error');
       return error as string;
     }
   };
@@ -44,14 +43,14 @@ const SignUpPage = () => {
       <div className="flex-1">
         <div className="border-gray-primary mt-4 mb-2 flex items-center overflow-hidden rounded-full border">
           <button
-            onClick={() => setRole('ROLE_CUSTOMER')}
-            className={getButtonStyle(role === 'ROLE_CUSTOMER')}
+            onClick={() => setRole(USER_ROLE.CUSTOMER)}
+            className={getButtonStyle(role === USER_ROLE.CUSTOMER)}
           >
             일반회원
           </button>
           <button
-            onClick={() => setRole('ROLE_PROVIDER')}
-            className={getButtonStyle(role === 'ROLE_PROVIDER')}
+            onClick={() => setRole(USER_ROLE.PROVIDER)}
+            className={getButtonStyle(role === USER_ROLE.PROVIDER)}
           >
             사업자
           </button>
