@@ -2,13 +2,19 @@ import client from '@/service/instance/client';
 
 import handleApiReqeust from './handleApiReqeust';
 
-import type { UserRole, UserInfo, WarnResponse, UserStatus } from '@/types/user';
+import {
+  type UserRole,
+  type UserInfo,
+  type WarnResponse,
+  type UserStatus,
+  USER_ROLE,
+} from '@/types/UserType';
 import type { GeneralRegisterType, LoginType, SocialRegisterType } from '@/schema/AuthSchema';
 
 type oAuthIdentity = 'kakao' | 'google';
 
 const getSignUpApiUrl = (role: UserRole) => {
-  if (role === 'ROLE_CUSTOMER') {
+  if (role === USER_ROLE.CUSTOMER) {
     return '/api/customers/sign-up';
   } else {
     return '/api/providers/sign-up';
