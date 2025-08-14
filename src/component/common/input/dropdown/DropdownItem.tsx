@@ -8,7 +8,7 @@ const Item = ({ option }: DropdownItemProps) => {
 
   return (
     <li
-      className="hover:bg-gray-primary/20 w-full cursor-pointer px-4 py-2.5 transition-colors"
+      className="hover:bg-gray-primary/20 w-full cursor-pointer px-4 py-2 transition-colors"
       onClick={() => selectOption(option)}
     >
       {option.label}

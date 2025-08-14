@@ -2,7 +2,7 @@ interface CommonInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value: string | number;
   error?: boolean;
   errorMessage?: string;
   className?: string;
@@ -22,7 +22,7 @@ const CommonInput = ({
   return (
     <div className="w-full">
       {label && (
-        <label className="mb-1 block text-black" htmlFor={name}>
+        <label className="mb-1 block text-sm text-black" htmlFor={name}>
           {label}
         </label>
       )}

@@ -13,6 +13,7 @@ interface RHFDropdownProps<T extends FieldValues> {
   defaultOption?: DropdownOption | null;
   children: React.ReactNode;
   className?: string;
+  label?: string;
 }
 
 const RHFDropdown = <T extends FieldValues>({
@@ -20,6 +21,7 @@ const RHFDropdown = <T extends FieldValues>({
   control,
   children,
   defaultOption = null,
+  label,
   className,
 }: RHFDropdownProps<T>) => {
   const { field } = useController({ name, control });
@@ -47,7 +49,8 @@ const RHFDropdown = <T extends FieldValues>({
   };
   return (
     <DropdownContext value={DropdownContextDefaultValues}>
-      <div className={`relative max-h-[42px] ${className}`}>
+      <div className={`relative ${className}`}>
+        {label && <p className="mb-1 text-sm">{label}</p>}
         <input
           id={field.name}
           className="hidden"

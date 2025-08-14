@@ -36,10 +36,10 @@ export const getAllHotels = async (searchQuery: string) => {
 };
 
 export const registerHotel = async (
-  hotelData: HotelRegisterType & { lat: string; lon: string },
+  hotelData: HotelRegisterType & { latitude: number; longitude: number },
 ) => {
   const response = await handleApiReqeust<RegisterHotelResponse>(() =>
-    client.post('/api/hotels', hotelData),
+    client.post('/api/hotels/', hotelData),
   );
 
   return response;
