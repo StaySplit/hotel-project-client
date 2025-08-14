@@ -210,9 +210,13 @@ const PaymentDetailModal: React.FC<{
 
           <div className="space-y-2 rounded-lg bg-gray-50 p-4">
             <div className="flex justify-between text-sm text-gray-700">
-              <span>투숙객 x {payment.participantCount}</span>
+              <span>나의 결제금액</span>
               <span>{formatNumberToWon(payment.amount)}</span>
             </div>
+          </div>
+          <div className="mt-2 text-left text-xs font-bold text-red-500">
+            <div> 총 예약금 = 실제 숙소 전체 금액</div>
+            <div> 총 결제금 = 내가 분할 결제하기로 한 금액</div>
           </div>
         </div>
 
