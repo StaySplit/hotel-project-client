@@ -8,16 +8,20 @@
  * @returns string
  */
 
-const buildSearchQuery = (param: Record<string, string>) => {
-  const searchParams = new URLSearchParams();
+const buildSearchQuery = (param: Record<string, string | string[]>) => {
+  const sp = new URLSearchParams();
   Object.entries(param).forEach(([key, value]) => {
-    // value가 유효한 값일 때
-    if (value !== undefined && value !== null && value !== '') {
-      searchParams.set(key, value.toString());
+    if (value == null) return;
+    if (Array.isArray(value)) {
+      value.forEach((v) => {
+        if (v !== '') sp.append(key, v);
+      });
+    } else {
+      if (value !== '') sp.append(key, value);
     }
   });
 
-  return searchParams.toString();
+  return sp.toString();
 };
 
 export default buildSearchQuery;
