@@ -3,7 +3,7 @@ export const profileMenuItems = [
   { role: 'ROLE_CUSTOMER', label: '결제 내역', href: '/mypage/payments' },
   { role: 'ROLE_CUSTOMER', label: '개인 설정', href: '/mypage/error' },
   { role: 'ROLE_CUSTOMER', label: '고객센터', href: '/mypage/error' },
-  { role: 'ROLE_PROVIDER', label: '호텔 등록', href: '/mypage/error' },
+  { role: 'ROLE_PROVIDER', label: '호텔 등록', href: '/register-hotel' },
 ];
 
 export const myInfoMenuItems = [
