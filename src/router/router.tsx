@@ -16,6 +16,7 @@ import MyPage from '@/pages/MyPage';
 import ErrorPage from '@/pages/ErrorPage';
 import ProtectedRoute from './ProtectedRouter';
 import ReservationPage from '@/component/mypage/reservation/ReservationPage';
+import RegisterRoomPage from '@/pages/RegisterRoomPage';
 import RegisterHotelPage from '@/pages/RegisterHotelPage';
 
 export const router = createBrowserRouter([
@@ -58,7 +59,10 @@ export const router = createBrowserRouter([
         path: 'hotels/:hotelId',
         element: <HotelDetailPage />,
       },
-
+      {
+        path: '/register-room',
+        element: <RegisterRoomPage />,
+      },
       {
         path: '/register-hotel',
         element: (
