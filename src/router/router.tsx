@@ -3,7 +3,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import Provider from '@/provider/Provider';
 import Layout from '@/layout/Layout';
 import HotelsPage from '@/component/hotels/HotelsPage';
-import HotelDetailPage from '@/component/hotel_detail/HotelDetailPage';
 
 import HomePage from '@/pages/HomePage';
 
@@ -16,6 +15,9 @@ import MyPage from '@/pages/MyPage';
 import ErrorPage from '@/pages/ErrorPage';
 import ProtectedRoute from './ProtectedRouter';
 import ReservationPage from '@/component/mypage/reservation/ReservationPage';
+import HotelDetailPage from '@/component/hotel-detail/HotelDetailPage';
+import RegisterHotelPage from '@/pages/RegisterHotelPage';
+import RegisterRoomPage from '@/pages/RegisterRoomPage';
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +58,18 @@ export const router = createBrowserRouter([
       {
         path: 'hotels/:hotelId',
         element: <HotelDetailPage />,
+      },
+      {
+        path: '/register-room',
+        element: <RegisterRoomPage />,
+      },
+      {
+        path: '/register-hotel',
+        element: (
+          <ProtectedRoute>
+            <RegisterHotelPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'mypage',
