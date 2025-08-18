@@ -1,9 +1,16 @@
 import { z } from 'zod';
 
+const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB
+
 const fileSchema = z.custom<File>((v) => v instanceof File && v.size > 0, {
   message: '파일을 선택해주세요.',
 });
-const filesSchema = z.array(fileSchema).min(1, '이미지는 최소 1장 업로드해주세요.');
+const filesSchema = z
+  .array(fileSchema)
+  .min(1, '이미지는 최소 1장 업로드해주세요.')
+  .refine((files) => files.reduce((sum, f) => sum + f.size, 0) <= MAX_TOTAL_SIZE, {
+    message: `이미지 전체 용량은 최대 ${MAX_TOTAL_SIZE / (1024 * 1024)}MB까지 업로드할 수 있습니다.`,
+  });
 
 export const roomSchema = z.object({
   roomType: z
