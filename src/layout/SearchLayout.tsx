@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 
-import SearchForm from '@/component/form/SearchForm';
+import SearchForm from '@/component/search/SearchForm';
 import extractSearchParams from '@/utils/extractSearchParams';
 import { Outlet, useLoaderData, type LoaderFunctionArgs } from 'react-router-dom';
 
