@@ -8,6 +8,7 @@ export interface HotelDetail {
   starLevel: number;
   rating: number;
   reviewCount: number;
+  mainPhotoUrl: string;
 }
 
 export interface Hotel {
