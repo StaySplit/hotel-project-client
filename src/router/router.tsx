@@ -16,8 +16,8 @@ import MyPage from '@/pages/MyPage';
 import ErrorPage from '@/pages/ErrorPage';
 import ProtectedRoute from './ProtectedRouter';
 import ReservationPage from '@/component/mypage/reservation/ReservationPage';
-import RegisterHotelPage from '@/pages/RegisterHotelPage';
 import RegisterRoomPage from '@/pages/RegisterRoomPage';
+import RegisterHotelPage from '@/pages/RegisterHotelPage';
 
 export const router = createBrowserRouter([
   {
