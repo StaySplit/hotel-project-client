@@ -2,8 +2,9 @@ import client from '@/service/instance/client';
 import handleApiReqeust from '../handleApiReqeust';
 
 import type { PaginationResult } from '@/types/pageable';
-import type { HotelItem, RegisterHotelResponse } from '@/types/hotel';
+import type { HotelDetail, HotelItem, RegisterHotelResponse } from '@/types/hotel';
 import type { HotelRegisterType } from '@/schema/HotelSchema';
+import type { Room } from '@/types/room/room';
 
 export const getHotels = async ({
   size,
@@ -17,8 +18,18 @@ export const getHotels = async ({
   return (await client.get(`api/hotels/list?page=${page}&size=${size}&sort=${sort}`)).data;
 };
 
-export const getHotelDetail = async (hotelId: number) => {
-  return (await client.get(`/hotels/${hotelId}`)).data;
+export const getHotelDetail = async (hotelId: string) => {
+  const response = await handleApiReqeust<HotelDetail>(() => client.get(`/api/hotels/${hotelId}`));
+
+  return response;
+};
+
+export const getHotelRooms = async (hotelId: string) => {
+  const response = await handleApiReqeust<PaginationResult<Room>>(() =>
+    client.get(`/api/hotels/${hotelId}/rooms`),
+  );
+
+  return response;
 };
 
 export const getSearchHotels = async (searchQuery: string) => {
