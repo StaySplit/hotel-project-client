@@ -28,3 +28,13 @@ export interface HotelItem {
   reviewCount: number;
   starLevel: number;
 }
+
+export interface RegisterHotelResponse {
+  hotelId: number;
+  name: string;
+  address: string;
+  longitude: number;
+  latitude: number;
+  description: string;
+  starLevel: number;
+}
