@@ -42,9 +42,14 @@ const HotelRoomRegisterForm = ({
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div aria-describedby="객실 이미지" className="rounded-2xl bg-white p-4 shadow-md">
-        <div className="mb-2 flex items-center gap-2">
-          <Image stroke="#4a6ca0" size={20} />
-          <p className="font-bold">객실 이미지</p>
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <div className="flex gap-2">
+            <Image stroke="#4a6ca0" size={20} />
+            <p className="font-bold">객실 이미지</p>
+          </div>
+          <span className="text-gray-primary-200 text-sm">
+            업로드 가능한 용량은 최대 10mb 입니다.
+          </span>
         </div>
         <RHFImageInput name="image" control={control} multiple />
       </div>

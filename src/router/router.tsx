@@ -16,6 +16,7 @@ import ErrorPage from '@/pages/ErrorPage';
 import ProtectedRoute from './ProtectedRouter';
 import ReservationPage from '@/component/mypage/reservation/ReservationPage';
 import HotelDetailPage from '@/component/hotel-detail/HotelDetailPage';
+
 import RegisterHotelPage from '@/pages/RegisterHotelPage';
 import RegisterRoomPage from '@/pages/RegisterRoomPage';
 
@@ -62,6 +63,22 @@ export const router = createBrowserRouter([
       {
         path: '/register-room',
         element: <RegisterRoomPage />,
+      },
+      {
+        path: '/register-hotel',
+        element: (
+          <ProtectedRoute>
+            <RegisterHotelPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/register-hotel-room',
+        element: (
+          <ProtectedRoute>
+            <RegisterRoomPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/register-hotel',
