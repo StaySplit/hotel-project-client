@@ -38,7 +38,7 @@ const ReservationPage = () => {
       setReservations(response);
     };
     fetchData();
-  }, []);
+  }, [setReservations]);
 
   return (
     <>

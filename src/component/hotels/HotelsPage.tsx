@@ -66,7 +66,7 @@ const HotelsPage = () => {
     );
     //FIX ME: position은 언제 쓰는지, 쓴다면 사용되는 로직 삽입 후 아래의 로그 제거
     console.log(position);
-  }, []);
+  }, [hotelStore.label, position]);
 
   useEffect(() => {
     // option null이면 실행 안함.
@@ -94,7 +94,7 @@ const HotelsPage = () => {
     if (current.hotelList.length === 0) {
       triggerHotelLoad();
     }
-  }, [option]);
+  }, [getCurrentHotels, hotelStore, navigationType, option, triggerHotelLoad]);
 
   const { hotelList, handleAddHotelsToList } = getCurrentHotels();
 
