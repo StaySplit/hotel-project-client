@@ -8,6 +8,7 @@ import RHFInput from '@/component/common/input/RHFInput';
 import RHFDropdown from '@/component/common/input/dropdown/RHFDropdown';
 import RHFTextArea from '@/component/common/input/RHFTextArea';
 import { PrimaryButton } from '@/component/common/button/PrimaryButton';
+import { useNavigate } from 'react-router-dom';
 
 const HOTEL_START_LEVEL = [
   {
@@ -42,6 +43,8 @@ interface HotelFormProps {
 }
 
 const HotelForm = ({ image, name, starLevel, description, address, onSubmit }: HotelFormProps) => {
+  const navigate = useNavigate();
+
   const { control, handleSubmit, watch } = useForm<HotelRegisterType>({
     resolver: zodResolver(hotelSchema),
     mode: 'onChange',
@@ -54,11 +57,20 @@ const HotelForm = ({ image, name, starLevel, description, address, onSubmit }: H
     },
   });
 
+  const submitHandler = (data: HotelRegisterType) => {
+    try {
+      onSubmit(data);
+      navigate('/mypage');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   watch();
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(submitHandler)}
       className="border-gray-primary mx-auto flex h-full w-full max-w-[700px] flex-col justify-start rounded-2xl border bg-white p-6 shadow-md"
     >
       <div className="mb-4 flex items-center justify-between">

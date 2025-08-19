@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { CircleX, Upload } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 
 interface CommonImageInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -92,6 +92,16 @@ const CommonImageInput = ({
               key={`${files[i].name} ${i}`}
               className={`relative ${multiple ? 'aspect-square' : 'h-full w-full'} overflow-hidden rounded-lg`}
             >
+              {multiple && i === 0 && (
+                <button
+                  type="button"
+                  onClick={() => onDeleteImage(i)}
+                  className="absolute top-2 left-2 inline-flex cursor-pointer items-center rounded-full bg-black/50 text-white"
+                  aria-label={`${i + 1}번째 이미지 삭제`}
+                >
+                  <span className="inline-block px-2 py-1 text-xs">대표</span>
+                </button>
+              )}
               <img
                 src={url}
                 alt={`${i + 1}번째 이미지`}
@@ -103,10 +113,10 @@ const CommonImageInput = ({
                 <button
                   type="button"
                   onClick={() => onDeleteImage(i)}
-                  className="absolute top-1 right-1 inline-flex cursor-pointer items-center gap-1 rounded-full bg-black/50 text-white"
+                  className="absolute top-2 right-2 inline-flex cursor-pointer items-center rounded-full bg-black/50 p-1 text-white"
                   aria-label={`${i + 1}번째 이미지 삭제`}
                 >
-                  <CircleX size={24} />
+                  <X size={16} strokeWidth={1.5} />
                 </button>
               )}
             </div>
