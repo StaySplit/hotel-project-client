@@ -44,6 +44,11 @@ const rooms: Room[] = [
     roomType: '디럭스 트윈',
     maxOccupancy: 3,
     price: 120000,
+    roomId: 0,
+    description: '',
+    totalQuantity: 0,
+    mainImageUrl: '',
+    additionalPhotoUrls: [],
   },
   {
     hotelId: 2,
@@ -51,6 +56,11 @@ const rooms: Room[] = [
     roomType: '오션뷰 스위트',
     maxOccupancy: 4,
     price: 250000,
+    roomId: 0,
+    description: '',
+    totalQuantity: 0,
+    mainImageUrl: '',
+    additionalPhotoUrls: [],
   },
   {
     hotelId: 3,
@@ -58,6 +68,11 @@ const rooms: Room[] = [
     roomType: '패밀리룸',
     maxOccupancy: 5,
     price: 180000,
+    roomId: 0,
+    description: '',
+    totalQuantity: 0,
+    mainImageUrl: '',
+    additionalPhotoUrls: [],
   },
 ];
 
