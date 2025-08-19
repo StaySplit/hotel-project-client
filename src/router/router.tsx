@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Provider from '@/provider/Provider';
 import Layout from '@/layout/Layout';
-import HotelsPage from '@/component/hotels/HotelsPage';
 
 import HomePage from '@/pages/HomePage';
 
@@ -52,10 +51,7 @@ export const router = createBrowserRouter([
         path: '/oauth/:identifier',
         element: <LoginFallbackPage />,
       },
-      {
-        path: 'hotels',
-        element: <HotelsPage />,
-      },
+
       {
         path: 'hotels/:hotelId',
         element: <HotelDetailPage />,
