@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { Upload, X } from 'lucide-react';
+import { CircleX, Upload, X } from 'lucide-react';
 
 interface CommonImageInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
