@@ -2,7 +2,7 @@ import RadioInput from '@/component/common/input/RadioInput';
 import { useEffect, useState } from 'react';
 
 import HotelCard from '@/component/card/HotelCard';
-import SearchForm from '@/component/form/SearchForm';
+import SearchForm from '@/component/search/SearchForm';
 
 import useGetInfiniteAllHotels from '@/hooks/queries/hotels/useGetInfiniteHotels';
 import CardSkeleton from '@/component/common/card/ui/CardSkeleton';

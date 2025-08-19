@@ -6,13 +6,14 @@ import { RatingStars } from './RatingStars';
 import { formatNumberWithComma } from '@/utils/format/formatUtil';
 
 interface HotelCardProps {
+  hotelId: number;
   starLevel: number;
   name: string;
   address: string;
   rating: number;
   reviewCount: number;
   // cheapestPrice: number;
-  // imageUrl : string;
+  imageUrl?: string;
   liked: boolean;
   handleChangeLike: () => void;
 }
@@ -24,15 +25,26 @@ const HotelCard = ({
   rating,
   reviewCount,
   liked,
+  imageUrl,
+  hotelId,
   handleChangeLike,
 }: HotelCardProps) => {
   return (
-    <Link to="/">
+    <Link to={`/hotels/${hotelId}`}>
       <div
         aria-label={name}
         className="hover:border-primary-200 relative flex w-full gap-4 rounded-2xl border border-gray-200 p-4 transition-colors lg:max-w-[300px] lg:flex-col"
       >
-        <div className="bg-primary-700 h-[120px] w-[120px] shrink-0 rounded-2xl lg:h-[200px] lg:w-full"></div>
+        {!imageUrl && (
+          <div className="bg-primary-700 h-[120px] w-[120px] shrink-0 rounded-2xl lg:h-[200px] lg:w-full" />
+        )}
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={name}
+            className="h-[120px] w-[120px] shrink-0 rounded-2xl lg:h-[200px] lg:w-full"
+          />
+        )}
         <div className="w-full">
           <div className="flex items-center justify-between">
             <p className="text-primary-700 text-xs lg:text-sm">{`${starLevel}성급`}</p>
